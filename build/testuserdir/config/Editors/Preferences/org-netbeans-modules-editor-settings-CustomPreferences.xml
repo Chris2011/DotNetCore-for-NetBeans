@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE editor-preferences PUBLIC "-//NetBeans//DTD Editor Preferences 1.0//EN" "http://www.netbeans.org/dtds/EditorPreferences-1_0.dtd">
+<editor-preferences>
+    <entry javaType="java.lang.Boolean" name="enable.breadcrumbs" xml:space="preserve">
+        <value><![CDATA[true]]></value>
+    </entry>
+    <entry javaType="java.lang.Boolean" name="enable.guide.lines" xml:space="preserve">
+        <value><![CDATA[true]]></value>
+    </entry>
+    <entry javaType="java.lang.Boolean" name="non-printable-characters-visible" xml:space="preserve">
+        <value><![CDATA[false]]></value>
+    </entry>
+</editor-preferences>
