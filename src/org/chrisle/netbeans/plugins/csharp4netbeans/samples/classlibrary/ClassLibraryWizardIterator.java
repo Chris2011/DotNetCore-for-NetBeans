@@ -21,6 +21,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeListener;
+import org.chrisle.netbeans.plugins.csharp4netbeans.beans.Sln;
+import org.chrisle.netbeans.plugins.csharp4netbeans.utils.SlnGenerator;
 import org.netbeans.api.project.ProjectManager;
 import org.netbeans.api.templates.TemplateRegistration;
 import org.netbeans.api.templates.TemplateRegistrations;
@@ -168,22 +170,30 @@ public class ClassLibraryWizardIterator implements WizardDescriptor./*Progress*/
 
     private static void createProjectFiles(InputStream source, FileObject projectRoot) throws IOException {
         try {
-            ZipInputStream str = new ZipInputStream(source);
-            ZipEntry entry;
-
-            while ((entry = str.getNextEntry()) != null) {
-                if (entry.isDirectory()) {
-                    FileUtil.createFolder(projectRoot, entry.getName());
-                } else {
-                    FileObject fo = FileUtil.createData(projectRoot, entry.getName());
-//                    if ("nbproject/project.xml".equals(entry.getName())) {
-//                        // Special handling for setting name of Ant-based projects; customize as needed:
-//                        filterProjectXML(fo, str, projectRoot.getName());
-//                    } else {
-                        writeFile(str, fo);
-//                    }
-                }
-            }
+            Sln sln = new Sln();
+            
+            sln.setProjName(null);
+            sln.setProjPath(null);
+            
+            SlnGenerator slnGenerator = new SlnGenerator(sln);
+            slnGenerator.createSlnFile();
+            
+//            ZipInputStream str = new ZipInputStream(source);
+//            ZipEntry entry;
+//
+//            while ((entry = str.getNextEntry()) != null) {
+//                if (entry.isDirectory()) {
+//                    FileUtil.createFolder(projectRoot, entry.getName());
+//                } else {
+//                    FileObject fo = FileUtil.createData(projectRoot, entry.getName());
+////                    if ("nbproject/project.xml".equals(entry.getName())) {
+////                        // Special handling for setting name of Ant-based projects; customize as needed:
+////                        filterProjectXML(fo, str, projectRoot.getName());
+////                    } else {
+//                        writeFile(str, fo);
+////                    }
+//                }
+//            }
         } finally {
             source.close();
         }
