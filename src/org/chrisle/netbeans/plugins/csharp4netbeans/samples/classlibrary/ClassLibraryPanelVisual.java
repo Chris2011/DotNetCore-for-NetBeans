@@ -31,6 +31,7 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
         // Register listener on the textFields to make the automatic updates
         projectNameTextField.getDocument().addDocumentListener(this);
         projectLocationTextField.getDocument().addDocumentListener(this);
+        createdFolderTextField.getDocument().addDocumentListener(this);
 
         solutionOptions = new ArrayList<>();
         solutionOptions.add("Create new solution");
@@ -47,7 +48,7 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
 
     private void enableSolutionField() {
         int selectedIndex = changeSolutionInstance.getSelectedIndex();
-        projectLocationTextField.setEnabled(selectedIndex == 0);
+        createdFolderTextField.setEnabled(selectedIndex == 0);
     }
 
     private void setChangeSolutionInstance(List<String> options) {
@@ -93,8 +94,6 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
 
         createdFolderLabel.setLabelFor(createdFolderTextField);
         org.openide.awt.Mnemonics.setLocalizedText(createdFolderLabel, org.openide.util.NbBundle.getMessage(ClassLibraryPanelVisual.class, "ClassLibraryPanelVisual.createdFolderLabel.text")); // NOI18N
-
-        createdFolderTextField.setEditable(false);
 
         projectLocationLabel1.setLabelFor(projectLocationTextField);
         org.openide.awt.Mnemonics.setLocalizedText(projectLocationLabel1, org.openide.util.NbBundle.getMessage(ClassLibraryPanelVisual.class, "ClassLibraryPanelVisual.projectLocationLabel1.text")); // NOI18N
@@ -298,7 +297,6 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
             //if (projectFolder.trim().length() == 0 || projectFolder.equals(oldName)) {
             createdFolderTextField.setText(projectFolder + File.separatorChar + projectName);
             //}
-
         }
         panel.fireChangeEvent(); // Notify that the panel changed
     }

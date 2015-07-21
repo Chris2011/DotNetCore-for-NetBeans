@@ -172,8 +172,8 @@ public class ClassLibraryWizardIterator implements WizardDescriptor./*Progress*/
         try {
             Sln sln = new Sln();
             
-            sln.setProjName(null);
-            sln.setProjPath(null);
+            sln.setProjName(projectRoot.getName());
+            sln.setProjPath(projectRoot.getPath());
             
             SlnGenerator slnGenerator = new SlnGenerator(sln);
             slnGenerator.createSlnFile();
