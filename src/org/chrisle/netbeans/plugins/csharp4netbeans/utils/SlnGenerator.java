@@ -19,7 +19,7 @@ public class SlnGenerator {
     
     public void createSlnFile() throws IOException {
         File dir = new File(this._sln.getProjPath());
-        File slnFile = new File(dir, String.format("{0}.sln", this._sln.getProjName()));
+        File slnFile = new File(dir, this._sln.getProjName() + ".sln");
 
         try (FileWriter fileWriter = new FileWriter(slnFile)) {
             fileWriter.write(_sln.getVersionsHeader());

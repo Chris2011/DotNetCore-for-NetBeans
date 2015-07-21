@@ -34,11 +34,11 @@ public class Sln {
     private String _projPath;
 
     public String getGlobal() {
-        return String.format("Global \n {0} \n {1} \n {2} \n EndGlobal \n", this.getGlobalSlnConfigSection(), null, this.getGlobalSlnPropsSection());
+        return String.format("Global\n{0}\n{1}\n{2}\nEndGlobal\n", this.getGlobalSlnConfigSection(), null, this.getGlobalSlnPropsSection());
     }
 
     public String getVersionsHeader() {
-        return String.format("\n {0}, {1} {2} \n {3} \n", this._visualStudioSlnFile, this._formatVersion, this._numericVersion, this._commentVersion);
+        return String.format("\n{0}, {1} {2} \n{3}\n", this._visualStudioSlnFile, this._formatVersion, this._numericVersion, this._commentVersion);
     }
 
     public String getProjName() {
