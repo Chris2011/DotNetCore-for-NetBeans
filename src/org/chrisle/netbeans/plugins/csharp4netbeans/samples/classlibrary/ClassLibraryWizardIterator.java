@@ -1,13 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.chrisle.netbeans.plugins.csharp4netbeans.samples.classlibrary;
 
 import java.awt.Component;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,14 +8,17 @@ import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeListener;
+import org.chrisle.netbeans.plugins.csharp4netbeans.beans.CSharpProjectType;
 import org.chrisle.netbeans.plugins.csharp4netbeans.beans.Sln;
+import org.chrisle.netbeans.plugins.csharp4netbeans.utils.ProjectGenerator;
 import org.chrisle.netbeans.plugins.csharp4netbeans.utils.SlnGenerator;
+import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectManager;
 import org.netbeans.api.templates.TemplateRegistration;
 import org.netbeans.api.templates.TemplateRegistrations;
@@ -31,19 +27,14 @@ import org.netbeans.spi.project.ui.templates.support.Templates;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
-import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.util.NbBundle.Messages;
-import org.openide.xml.XMLUtil;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 // TODO define position attribute
 @TemplateRegistrations({
-    @TemplateRegistration(folder = "Project/C#", displayName = "#ClassLibrary_displayName", description = "ClassLibraryDescription.html", iconBase = "org/chrisle/netbeans/plugins/csharp4netbeans/samples/classlibrary/ClassLibrary.png", content = "ClassLibraryProject.zip"),
-    @TemplateRegistration(folder = "Project/C#/Windows", displayName = "#ClassLibrary_displayName", description = "ClassLibraryDescription.html", iconBase = "org/chrisle/netbeans/plugins/csharp4netbeans/samples/classlibrary/ClassLibrary.png", content = "ClassLibraryProject.zip")
+//    @TemplateRegistration(folder = "Project/C#", displayName = "#ClassLibrary_displayName", description = "ClassLibraryDescription.html", iconBase = "org/chrisle/netbeans/plugins/csharp4netbeans/samples/classlibrary/ClassLibrary.png", content = "ClassLibraryProject.zip"),
+    @TemplateRegistration(folder = "Project/C#", displayName = "#ClassLibrary_displayName", description = "ClassLibraryDescription.html", iconBase = "org/chrisle/netbeans/plugins/csharp4netbeans/samples/classlibrary/ClassLibrary.png"),
+    @TemplateRegistration(folder = "Project/C#/Windows", displayName = "#ClassLibrary_displayName", description = "ClassLibraryDescription.html", iconBase = "org/chrisle/netbeans/plugins/csharp4netbeans/samples/classlibrary/ClassLibrary.png")
 })
 @Messages("ClassLibrary_displayName=Class Library")
 public class ClassLibraryWizardIterator implements WizardDescriptor./*Progress*/InstantiatingIterator {
@@ -51,6 +42,7 @@ public class ClassLibraryWizardIterator implements WizardDescriptor./*Progress*/
     private int index;
     private WizardDescriptor.Panel[] panels;
     private WizardDescriptor wiz;
+    private static File _slnFile;
 
     public ClassLibraryWizardIterator() {
     }
@@ -76,13 +68,13 @@ public class ClassLibraryWizardIterator implements WizardDescriptor./*Progress*/
         dirF.mkdirs();
 
         FileObject template = Templates.getTemplate(wiz);
-        FileObject dir = FileUtil.toFileObject(dirF);
-        createProjectFiles(template.getInputStream(), dir);
+        FileObject slnDir = FileUtil.toFileObject(dirF);
+        createProjectFiles(template.getInputStream(), slnDir, wiz);
 
         // Always open top dir as a project:
-        resultSet.add(dir);
+        resultSet.add(slnDir);
         // Look for nested projects to open as well:
-        Enumeration<? extends FileObject> e = dir.getFolders(true);
+        Enumeration<? extends FileObject> e = slnDir.getFolders(true);
         while (e.hasMoreElements()) {
             FileObject subfolder = e.nextElement();
             if (ProjectManager.getDefault().isProject(subfolder)) {
@@ -168,16 +160,41 @@ public class ClassLibraryWizardIterator implements WizardDescriptor./*Progress*/
     public final void removeChangeListener(ChangeListener l) {
     }
 
-    private static void createProjectFiles(InputStream source, FileObject projectRoot) throws IOException {
+    private static void createProjectFiles(InputStream source, FileObject projectRoot, WizardDescriptor wiz) throws IOException {
         try {
-            Sln sln = new Sln();
-            
-            sln.setProjName(projectRoot.getName());
-            sln.setProjPath(projectRoot.getPath());
-            
-            SlnGenerator slnGenerator = new SlnGenerator(sln);
-            slnGenerator.createSlnFile();
-            
+            Map<String, Object> properties = wiz.getProperties();
+            createSln(projectRoot);
+            createProj(wiz, projectRoot);
+        } finally {
+            source.close();
+        }
+    }
+
+    private static void createSln(FileObject projectRoot) throws IOException {
+        // Create Sln folder and file.
+        Sln sln = new Sln();
+
+        sln.setSlnName(projectRoot.getName());
+        sln.setSlnPath(projectRoot.getPath());
+        
+        SlnGenerator slnGenerator = new SlnGenerator(sln);
+        slnGenerator.createSlnFile();
+        
+        _slnFile = sln.getSlnFile();
+    }
+
+    private static void createProj(WizardDescriptor wiz, FileObject projectRoot) {
+        // Create proj folder and file.
+        CSharpProjectType proj = new CSharpProjectType();
+
+        proj.setProjName(wiz.getProperty("name").toString());
+        proj.setSlnPath(projectRoot.getPath());
+
+        ProjectGenerator projGenerator = new ProjectGenerator(proj);
+        projGenerator.createProjFolder();
+        projGenerator.addProjectSettingsToSln(_slnFile);
+        
+        
 //            ZipInputStream str = new ZipInputStream(source);
 //            ZipEntry entry;
 //
@@ -194,10 +211,8 @@ public class ClassLibraryWizardIterator implements WizardDescriptor./*Progress*/
 ////                    }
 //                }
 //            }
-        } finally {
-            source.close();
-        }
     }
+
 
     private static void writeFile(ZipInputStream str, FileObject fo) throws IOException {
         OutputStream out = fo.getOutputStream();
