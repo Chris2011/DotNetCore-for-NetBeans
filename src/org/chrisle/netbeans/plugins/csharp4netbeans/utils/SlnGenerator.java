@@ -18,22 +18,18 @@ public class SlnGenerator {
     }
     
     public void createSlnFile() throws IOException {
-        File dir = new File(this._sln.getProjPath());
-        File slnFile = new File(dir, this._sln.getProjName() + ".sln");
+        File dir = new File(this._sln.getSlnPath());
+        File slnFile = new File(dir, this._sln.getSlnName() + ".sln");
+        
+        this._sln.setSlnFile(slnFile);
 
         try (FileWriter fileWriter = new FileWriter(slnFile)) {
             fileWriter.write(_sln.getVersionsHeader());
+            fileWriter.append(_sln.getMinimumVisualStudioVersion());
+            fileWriter.append(_sln.getProjectSection());
             fileWriter.append(_sln.getGlobal());
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
         }
-    }
-    
-    public void addProjectToSlnFile(String projectName) {
-        
-    }
-    
-    private void addProjectSettingsToSlnFile(String projectGuid) {
-        
     }
 }
