@@ -1,7 +1,12 @@
 package org.chrisle.netbeans.plugins.csharp4netbeans.utils;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import org.chrisle.netbeans.plugins.csharp4netbeans.beans.CSharpProjectType;
 import org.openide.util.Exceptions;
 
@@ -30,7 +35,17 @@ public class ProjectGenerator {
         }
     }
 
-    public void addProjectSettingsToSln(File slnFile) {
+    public void addProjectSettingsToSln(File slnFile) throws FileNotFoundException, IOException {
+        BufferedReader bufReader = new BufferedReader(new FileReader(slnFile));
+        StringBuffer strBuffer = new StringBuffer();
+        String line;
         
+        while((line = bufReader.readLine()) != null) {            
+            if(line.equals("# StartProjectSection")) {
+                strBuffer.append(line).append("\n").append(this._projType.getProjectInfo());
+            }
+        }
+
+        bufReader.close();
     }
 }

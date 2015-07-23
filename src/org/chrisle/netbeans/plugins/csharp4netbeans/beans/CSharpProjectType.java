@@ -13,6 +13,7 @@ public class CSharpProjectType {
 
     private String _slnPath;
     private String _projName;
+    private String _projPath;
 
     public void setProjName(String projName) {
         this._projName = projName;
@@ -20,11 +21,6 @@ public class CSharpProjectType {
     
     public String getProjName() {
         return _projName;
-    }
-    private String _projPath;
-
-    public String getGlobal() {
-        return String.format("Global\n%s\n%s\n%s\nEndGlobal\n", this.getGlobalSlnConfigSection(), null, this.getGlobalSlnPropsSection());
     }
 
     public String getSlnPath() {
@@ -39,12 +35,8 @@ public class CSharpProjectType {
         return UUID.randomUUID().toString();
     }
 
-    private String getProjectId() {
-        return String.format("Project(\"{%s}\") = %s, %s, %s", this._vcsharpguid, this._projName, this._projPath, this.getProjGuid());
-    }
-
     public String getProjectInfo() {
-        return String.format("%s \n EndProject\n", getProjectId());
+        return String.format("Project(\"{%s}\") = %s, %s, %s\nEndProject\n", this._vcsharpguid, this._projName, this._projPath, this.getProjGuid());
     }
 
     private String getGlobalSlnConfigSection() {

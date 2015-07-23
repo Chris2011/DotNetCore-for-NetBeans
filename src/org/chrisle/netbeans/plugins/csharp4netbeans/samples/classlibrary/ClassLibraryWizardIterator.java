@@ -27,6 +27,7 @@ import org.netbeans.spi.project.ui.templates.support.Templates;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
+import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.util.NbBundle.Messages;
 
@@ -192,9 +193,12 @@ public class ClassLibraryWizardIterator implements WizardDescriptor./*Progress*/
 
         ProjectGenerator projGenerator = new ProjectGenerator(proj);
         projGenerator.createProjFolder();
-        projGenerator.addProjectSettingsToSln(_slnFile);
-        
-        
+        try {
+            projGenerator.addProjectSettingsToSln(_slnFile);
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
 //            ZipInputStream str = new ZipInputStream(source);
 //            ZipEntry entry;
 //
