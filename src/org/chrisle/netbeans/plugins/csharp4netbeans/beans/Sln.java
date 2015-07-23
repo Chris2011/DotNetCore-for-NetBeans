@@ -18,18 +18,18 @@ public class Sln {
                                                     // nv_2010 = "11.00"  
                                                     // nv_2012 = "12.00" 
     private final String _commentVersion = "# Netbeans 8.0.2"; // TODO: Dynamic Netbeans version.
-    private final String _minimumVSVersion = "MinimumVisualStudioVersion = 10.0.40219.1\n";
+    private final String _minimumVSVersion = "MinimumVisualStudioVersion = 10.0.40219.1\n\n";
 
     private String _slnName;
     private String _slnPath;
     private File _slnFile;
 
     public String getGlobal() {
-        return String.format("Global\n%s\n%s\n%s\nEndGlobal\n", this.getGlobalSlnConfigSection(), null, this.getGlobalSlnPropsSection());
+        return String.format("Global\n%s   %s\n%sEndGlobal\n", this.getGlobalSlnConfigSection(), this.getGlobalProjectSettingsSection(), this.getGlobalSlnPropsSection());
     }
 
     public String getVersionsHeader() {
-        return String.format("\n%s, %s %s\n%s\n", this._visualStudioSlnFile, this._formatVersion, this._numericVersion, this._commentVersion);
+        return String.format("\n%s, %s %s\n%s\n\n", this._visualStudioSlnFile, this._formatVersion, this._numericVersion, this._commentVersion);
     }
 
     public String getSlnName() {
@@ -49,15 +49,19 @@ public class Sln {
     }
     
     public String getProjectSection() {
-        return String.format("\n# Created with Netbeans\n# StartProjectSection\n# EndProjectSection\n\n");
+        return "# Created with Netbeans\n# StartProjectSection\n# EndProjectSection\n\n";
     }
 
     private String getGlobalSlnConfigSection() {
-        return "\tGlobalSection(SolutionConfigurationPlatforms) = preSolution\n\t\tDebug|Any CPU = Debug|Any CPU\n\t\tRelease|Any CPU = Release Any CPU\n\tEndGlobalSection\n";
+        return "   GlobalSection(SolutionConfigurationPlatforms) = preSolution\n      Debug|Any CPU = Debug|Any CPU\n      Release|Any CPU = Release Any CPU\n   EndGlobalSection\n\n";
+    }
+    
+    private String getGlobalProjectSettingsSection() {
+        return "# Created with Netbeans\n   # StartProjectGlobalSection\n   # EndProjectGlobalSection\n";
     }
     
     private String getGlobalSlnPropsSection() {
-        return "\tGlobalSection(SolutionProperties) = preSolution\n\t\tHideSolutionNode = FALSE\n\tEndGlobalSection\n";
+        return "   GlobalSection(SolutionProperties) = preSolution\n      HideSolutionNode = FALSE\n   EndGlobalSection\n";
     }
 
     public String getMinimumVisualStudioVersion() {
