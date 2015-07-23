@@ -65,6 +65,8 @@ public class ClassLibraryWizardIterator implements WizardDescriptor./*Progress*/
 
     public Set/*<FileObject>*/ instantiate(/*ProgressHandle handle*/) throws IOException {
         Set<FileObject> resultSet = new LinkedHashSet<FileObject>();
+        Map<String, Object> properties = wiz.getProperties();
+        
         File dirF = FileUtil.normalizeFile((File) wiz.getProperty("projdir"));
         dirF.mkdirs();
 

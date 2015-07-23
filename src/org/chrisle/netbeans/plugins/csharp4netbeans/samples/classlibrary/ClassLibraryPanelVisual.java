@@ -42,6 +42,7 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
         enableSolutionField();
 
         changeSolutionInstance.addItemListener((e) -> {
+            panel.isValid();
             enableSolutionField();
         });
     }
@@ -220,12 +221,26 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
         }
 
         File[] kids = destFolder.listFiles();
-        if (destFolder.exists() && kids != null && kids.length > 0) {
-            // Folder exists and is not empty
-            wizardDescriptor.putProperty("WizardPanel_errorMessage",
-                    "Project Folder already exists and is not empty.");
-            return false;
+        
+        if (changeSolutionInstance.getSelectedIndex() == 0 &&
+            (destFolder.exists() && kids != null && kids.length > 0)) {
+                // Solution Folder exists and is not empty
+                wizardDescriptor.putProperty("WizardPanel_errorMessage",
+                        "Solution Folder already exists and is not empty.");
+                return false;
+        } else {
+            if(destFolder.exists() && kids != null && kids.length > 0) {
+                for (File project : kids) {
+                    if (project.getName().equals(projectNameTextField.getText())) {
+                        // Project Folder exists and is not empty
+                        wizardDescriptor.putProperty("WizardPanel_errorMessage",
+                                "Project Folder already exists and is not empty.");
+                        return false;
+                    }
+                }
+            }
         }
+        
         wizardDescriptor.putProperty("WizardPanel_errorMessage", "");
         return true;
     }
@@ -236,6 +251,7 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
 
         d.putProperty("projdir", new File(folder));
         d.putProperty("name", name);
+        d.putProperty("newSln", changeSolutionInstance.getSelectedIndex());
     }
 
     void read(WizardDescriptor settings) {
@@ -295,7 +311,9 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
             String projectFolder = projectLocationTextField.getText();
 
             //if (projectFolder.trim().length() == 0 || projectFolder.equals(oldName)) {
-            createdFolderTextField.setText(projectFolder + File.separatorChar + projectName);
+            if (createdFolderTextField.isEnabled()) {
+                createdFolderTextField.setText(projectFolder + File.separatorChar + projectName);
+            }
             //}
         }
         panel.fireChangeEvent(); // Notify that the panel changed
