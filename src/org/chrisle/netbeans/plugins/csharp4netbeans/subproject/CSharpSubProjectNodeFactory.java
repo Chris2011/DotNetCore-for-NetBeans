@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.swing.event.ChangeListener;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ui.support.NodeFactory;
+import org.netbeans.spi.project.ui.support.NodeFactorySupport;
 import org.netbeans.spi.project.ui.support.NodeList;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
@@ -47,7 +48,18 @@ public class CSharpSubProjectNodeFactory implements NodeFactory {
 
         @Override
         public Node node(Project node) {
-            FilterNode fn = null;
+            ReferencesNode nd = null;
+
+            try {
+                nd = new ReferencesNode(node);
+
+                return nd;
+            } catch (DataObjectNotFoundException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+
+            return nd;
+//            FilterNode fn = null;
 //            try {
 //                fn = new FilterNode(DataObject.find(node.getProjectDirectory()).getNodeDelegate()) {
 //                    @Override
@@ -63,7 +75,7 @@ public class CSharpSubProjectNodeFactory implements NodeFactory {
 //            } catch (DataObjectNotFoundException ex) {
 //                Exceptions.printStackTrace(ex);
 //            }
-            return fn;
+//            return fn;
         }
 
         @Override
