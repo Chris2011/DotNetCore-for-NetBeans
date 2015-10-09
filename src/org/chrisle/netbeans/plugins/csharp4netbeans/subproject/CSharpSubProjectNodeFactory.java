@@ -5,15 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.swing.event.ChangeListener;
+import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ui.support.NodeFactory;
 import org.netbeans.spi.project.ui.support.NodeFactorySupport;
 import org.netbeans.spi.project.ui.support.NodeList;
+import org.openide.filesystems.FileUtil;
+import org.openide.loaders.DataFolder;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
+import org.openide.util.ImageUtilities;
 
 /**
  *
@@ -46,36 +50,42 @@ public class CSharpSubProjectNodeFactory implements NodeFactory {
             return result;
         }
 
+        @StaticResource
+        private static final String IMAGE = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/references.png";
+
         @Override
         public Node node(Project node) {
-            ReferencesNode nd = null;
-
-            try {
-                nd = new ReferencesNode(node);
-
-                return nd;
-            } catch (DataObjectNotFoundException ex) {
-                Exceptions.printStackTrace(ex);
-            }
-
-            return nd;
-//            FilterNode fn = null;
-//            try {
-//                fn = new FilterNode(DataObject.find(node.getProjectDirectory()).getNodeDelegate()) {
-//                    @Override
-//                    public Image getIcon(int type) {
-//                        return null;
-//                    }
+//            ReferencesNode nd = null;
 //
-//                    @Override
-//                    public Image getOpenedIcon(int type) {
-//                        return null;
-//                    }
-//                };
+//            try {
+//                nd = new ReferencesNode(node);
+//
+//                return nd;
 //            } catch (DataObjectNotFoundException ex) {
 //                Exceptions.printStackTrace(ex);
 //            }
-//            return fn;
+
+//            return nd;
+            FilterNode fn = null;
+            try {
+                fn = new FilterNode(DataObject.find(node.getProjectDirectory()).getNodeDelegate()) {
+                    @Override
+                    public Image getIcon(int type) {
+                        DataFolder root = DataFolder.findFolder(FileUtil.getConfigRoot());
+                        Image original = root.getNodeDelegate().getIcon(type);
+
+                        return ImageUtilities.mergeImages(original, ImageUtilities.loadImage(IMAGE), 7, 7);
+                    }
+
+                    @Override
+                    public Image getOpenedIcon(int type) {
+                        return null;
+                    }
+                };
+            } catch (DataObjectNotFoundException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            return fn;
         }
 
         @Override

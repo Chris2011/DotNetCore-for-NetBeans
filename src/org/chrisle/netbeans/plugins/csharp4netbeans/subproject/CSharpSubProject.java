@@ -46,12 +46,17 @@ public class CSharpSubProject implements Project {
     @Override
     public Lookup getLookup() {
         if (lkp == null) {
-            lkp = Lookups.fixed(new Object[]{
-                // register your features here
-                this,
-                new Info(),
-                new CSharpSubProjectLogicalView(this)
-            });
+            try {
+                lkp = Lookups.fixed(new Object[]{
+                    // register your features here
+                    this,
+                    new Info(),
+                    new CSharpSubProjectLogicalView(this),
+                    new ReferencesNode(this) // Remove this
+                });
+            } catch (DataObjectNotFoundException ex) {
+                Exceptions.printStackTrace(ex);
+            }
         }
 
         return lkp;
@@ -91,7 +96,7 @@ public class CSharpSubProject implements Project {
             public ProjectNode(Node node, CSharpSubProject project) throws DataObjectNotFoundException {
                 super(node,
 //                        NodeFactorySupport.createCompositeChildren(project, "Projects/org-csharp-subproject/Nodes"),
-                         new FilterNode.Children(node),
+                        new FilterNode.Children(new ReferencesNode(project)), // Change back to the original
                         new ProxyLookup(
                                 new Lookup[]{
                                     Lookups.singleton(project),
