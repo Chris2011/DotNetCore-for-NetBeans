@@ -70,7 +70,8 @@ public class CSharpSubProject implements Project {
 
         @Override
         public Node createLogicalView() {
-            return null;
+//            try {
+//                return new ReferencesNode(_project);
 //            try {
 //                //Obtain the project directory's node:
 //                FileObject projectDirectory = _project.getProjectDirectory();
@@ -85,49 +86,54 @@ public class CSharpSubProject implements Project {
 //                //read-only filesystem or something evil happened
 //                return new AbstractNode(Children.LEAF);
 //            }
+//            } catch (DataObjectNotFoundException ex) {
+//                Exceptions.printStackTrace(ex);
+//            }
+
+            return null;
         }
-
-        private final class ProjectNode extends FilterNode {
-            final CSharpSubProject project;
-
-            public ProjectNode(Node node, CSharpSubProject project) throws DataObjectNotFoundException {
-                super(node,
-//                        null,
-                        NodeFactorySupport.createCompositeChildren(project, "Projects/org-csharp-subproject/Nodes"),
-//                        new FilterNode.Children(node), // Change back to the original
-                        new ProxyLookup(
-                                new Lookup[]{
-                                    Lookups.singleton(project),
-                                    node.getLookup()
-                                }));
-                this.project = project;
-            }
-
-            @Override
-            public Action[] getActions(boolean arg0) {
-                return new Action[]{
-                    CommonProjectActions.newFileAction(),
-                    CommonProjectActions.copyProjectAction(),
-                    CommonProjectActions.deleteProjectAction(),
-                    CommonProjectActions.closeProjectAction()
-                };
-            }
-
-            @Override
-            public Image getIcon(int type) {
-                return ImageUtilities.loadImage(PROJECT_ICON);
-            }
-
-            @Override
-            public Image getOpenedIcon(int type) {
-                return getIcon(type);
-            }
-
-            @Override
-            public String getDisplayName() {
-                return project.getProjectDirectory().getName();
-            }
-        }
+//
+//        private final class ProjectNode extends FilterNode {
+//            final CSharpSubProject project;
+//
+//            public ProjectNode(Node node, CSharpSubProject project) throws DataObjectNotFoundException {
+//                super(node,
+////                        null,
+//                        NodeFactorySupport.createCompositeChildren(project, "Projects/org-csharp-subproject/Nodes"),
+////                        new FilterNode.Children(node), // Change back to the original
+//                        new ProxyLookup(
+//                                new Lookup[]{
+//                                    Lookups.singleton(project),
+//                                    node.getLookup()
+//                                }));
+//                this.project = project;
+//            }
+////
+//            @Override
+//            public Action[] getActions(boolean arg0) {
+//                return new Action[]{
+//                    CommonProjectActions.newFileAction(),
+//                    CommonProjectActions.copyProjectAction(),
+//                    CommonProjectActions.deleteProjectAction(),
+//                    CommonProjectActions.closeProjectAction()
+//                };
+//            }
+//
+//            @Override
+//            public Image getIcon(int type) {
+//                return ImageUtilities.loadImage(PROJECT_ICON);
+//            }
+//
+//            @Override
+//            public Image getOpenedIcon(int type) {
+//                return getIcon(type);
+//            }
+//
+//            @Override
+//            public String getDisplayName() {
+//                return project.getProjectDirectory().getName();
+//            }
+//        }
 
         @Override
         public Node findPath(Node root, Object target) {
