@@ -60,7 +60,7 @@ public class CSharpSubProject implements Project {
 
     private final class CSharpSubProjectLogicalView implements LogicalViewProvider {
         @StaticResource()
-        public static final String PROJECT_ICON = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/references.png";
+        public static final String PROJECT_ICON = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/cs-project-nb.png";
 
         private final CSharpSubProject _project;
 
@@ -70,6 +70,21 @@ public class CSharpSubProject implements Project {
 
         @Override
         public Node createLogicalView() {
+            try {
+                //Obtain the project directory's node:
+                FileObject projectDirectory = _project.getProjectDirectory();
+                DataFolder projectFolder = DataFolder.findFolder(projectDirectory);
+                Node nodeOfProjectFolder = projectFolder.getNodeDelegate();
+
+                //Decorate the project directory's node:
+                return new ProjectNode(nodeOfProjectFolder, _project);
+            } catch (DataObjectNotFoundException donfe) {
+                Exceptions.printStackTrace(donfe);
+                //Fallback-the directory couldn't be created -
+                //read-only filesystem or something evil happened
+                return new AbstractNode(Children.LEAF);
+            }
+            
 //            try {
 //                return new ReferencesNode(_project);
 //            try {
@@ -90,50 +105,50 @@ public class CSharpSubProject implements Project {
 //                Exceptions.printStackTrace(ex);
 //            }
 
-            return null;
+//            return null;
         }
 //
-//        private final class ProjectNode extends FilterNode {
-//            final CSharpSubProject project;
+        private final class ProjectNode extends FilterNode {
+            final CSharpSubProject project;
+
+            public ProjectNode(Node node, CSharpSubProject project) throws DataObjectNotFoundException {
+                super(node,
+//                        null,
+                        NodeFactorySupport.createCompositeChildren(project, "Projects/org-csharp-subproject/Nodes"),
+//                        new FilterNode.Children(node), // Change back to the original
+                        new ProxyLookup(
+                                new Lookup[]{
+                                    Lookups.singleton(project),
+                                    node.getLookup()
+                                }));
+                this.project = project;
+            }
 //
-//            public ProjectNode(Node node, CSharpSubProject project) throws DataObjectNotFoundException {
-//                super(node,
-////                        null,
-//                        NodeFactorySupport.createCompositeChildren(project, "Projects/org-csharp-subproject/Nodes"),
-////                        new FilterNode.Children(node), // Change back to the original
-//                        new ProxyLookup(
-//                                new Lookup[]{
-//                                    Lookups.singleton(project),
-//                                    node.getLookup()
-//                                }));
-//                this.project = project;
-//            }
-////
-//            @Override
-//            public Action[] getActions(boolean arg0) {
-//                return new Action[]{
-//                    CommonProjectActions.newFileAction(),
-//                    CommonProjectActions.copyProjectAction(),
-//                    CommonProjectActions.deleteProjectAction(),
-//                    CommonProjectActions.closeProjectAction()
-//                };
-//            }
-//
-//            @Override
-//            public Image getIcon(int type) {
-//                return ImageUtilities.loadImage(PROJECT_ICON);
-//            }
-//
-//            @Override
-//            public Image getOpenedIcon(int type) {
-//                return getIcon(type);
-//            }
-//
-//            @Override
-//            public String getDisplayName() {
-//                return project.getProjectDirectory().getName();
-//            }
-//        }
+            @Override
+            public Action[] getActions(boolean arg0) {
+                return new Action[]{
+                    CommonProjectActions.newFileAction(),
+                    CommonProjectActions.copyProjectAction(),
+                    CommonProjectActions.deleteProjectAction(),
+                    CommonProjectActions.closeProjectAction()
+                };
+            }
+
+            @Override
+            public Image getIcon(int type) {
+                return ImageUtilities.loadImage(PROJECT_ICON);
+            }
+
+            @Override
+            public Image getOpenedIcon(int type) {
+                return getIcon(type);
+            }
+
+            @Override
+            public String getDisplayName() {
+                return project.getProjectDirectory().getName();
+            }
+        }
 
         @Override
         public Node findPath(Node root, Object target) {
