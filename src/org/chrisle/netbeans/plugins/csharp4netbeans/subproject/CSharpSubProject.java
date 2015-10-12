@@ -11,6 +11,7 @@ import org.netbeans.api.project.ProjectInformation;
 import org.netbeans.spi.project.ProjectState;
 import org.netbeans.spi.project.ui.LogicalViewProvider;
 import org.netbeans.spi.project.ui.support.CommonProjectActions;
+import org.netbeans.spi.project.ui.support.NodeFactorySupport;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataFolder;
 import org.openide.loaders.DataObjectNotFoundException;
@@ -46,17 +47,12 @@ public class CSharpSubProject implements Project {
     @Override
     public Lookup getLookup() {
         if (lkp == null) {
-            try {
-                lkp = Lookups.fixed(new Object[]{
-                    // register your features here
-                    this,
-                    new Info(),
-                    new CSharpSubProjectLogicalView(this),
-                    new ReferencesNode(this) // Remove this
-                });
-            } catch (DataObjectNotFoundException ex) {
-                Exceptions.printStackTrace(ex);
-            }
+            lkp = Lookups.fixed(new Object[]{
+                // register your features here
+                this,
+                new Info(),
+                new CSharpSubProjectLogicalView(this)
+            });
         }
 
         return lkp;
@@ -64,7 +60,7 @@ public class CSharpSubProject implements Project {
 
     private final class CSharpSubProjectLogicalView implements LogicalViewProvider {
         @StaticResource()
-        public static final String PROJECT_ICON = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/cs-project-nb.png";
+        public static final String PROJECT_ICON = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/references.png";
 
         private final CSharpSubProject _project;
 
@@ -74,20 +70,21 @@ public class CSharpSubProject implements Project {
 
         @Override
         public Node createLogicalView() {
-            try {
-                //Obtain the project directory's node:
-                FileObject projectDirectory = _project.getProjectDirectory();
-                DataFolder projectFolder = DataFolder.findFolder(projectDirectory);
-                Node nodeOfProjectFolder = projectFolder.getNodeDelegate();
-
-                //Decorate the project directory's node:
-                return new ProjectNode(nodeOfProjectFolder, _project);
-            } catch (DataObjectNotFoundException donfe) {
-                Exceptions.printStackTrace(donfe);
-                //Fallback-the directory couldn't be created -
-                //read-only filesystem or something evil happened
-                return new AbstractNode(Children.LEAF);
-            }
+            return null;
+//            try {
+//                //Obtain the project directory's node:
+//                FileObject projectDirectory = _project.getProjectDirectory();
+//                DataFolder projectFolder = DataFolder.findFolder(projectDirectory);
+//                Node nodeOfProjectFolder = projectFolder.getNodeDelegate();
+//
+//                //Decorate the project directory's node:
+//                return new ProjectNode(nodeOfProjectFolder, _project);
+//            } catch (DataObjectNotFoundException donfe) {
+//                Exceptions.printStackTrace(donfe);
+//                //Fallback-the directory couldn't be created -
+//                //read-only filesystem or something evil happened
+//                return new AbstractNode(Children.LEAF);
+//            }
         }
 
         private final class ProjectNode extends FilterNode {
@@ -95,8 +92,9 @@ public class CSharpSubProject implements Project {
 
             public ProjectNode(Node node, CSharpSubProject project) throws DataObjectNotFoundException {
                 super(node,
-//                        NodeFactorySupport.createCompositeChildren(project, "Projects/org-csharp-subproject/Nodes"),
-                        new FilterNode.Children(new ReferencesNode(project)), // Change back to the original
+//                        null,
+                        NodeFactorySupport.createCompositeChildren(project, "Projects/org-csharp-subproject/Nodes"),
+//                        new FilterNode.Children(node), // Change back to the original
                         new ProxyLookup(
                                 new Lookup[]{
                                     Lookups.singleton(project),
@@ -140,7 +138,7 @@ public class CSharpSubProject implements Project {
 
     private final class Info implements ProjectInformation {
         @StaticResource()
-        public static final String CSHARP_ICON = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/cs-file-folder.png";
+        public static final String CSHARP_ICON = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/cs-project-folder.png";
 
         @Override
         public Icon getIcon() {
