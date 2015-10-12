@@ -3,6 +3,7 @@ package org.chrisle.netbeans.plugins.csharp4netbeans.subproject;
 import java.awt.Image;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
+import org.netbeans.spi.project.ui.support.NodeFactory;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataFolder;
 import org.openide.loaders.DataObject;
@@ -19,7 +20,7 @@ public class ReferencesNode extends FilterNode {
     private static final String IMAGE = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/references.png";
 
     public ReferencesNode(Project proj) throws DataObjectNotFoundException {
-        super(DataObject.find(proj.getProjectDirectory().getFileObject("nbproject")).getNodeDelegate());
+        super(DataObject.find(proj.getProjectDirectory().getFileObject("bla.blau")).getNodeDelegate());
     }
 
     @Override
