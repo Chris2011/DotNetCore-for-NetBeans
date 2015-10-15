@@ -1,6 +1,7 @@
 package org.chrisle.netbeans.plugins.csharp4netbeans.subproject;
 
 import java.awt.Image;
+import java.io.IOException;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ui.support.NodeFactory;
@@ -19,8 +20,8 @@ public class ReferencesNode extends FilterNode {
     @StaticResource
     private static final String IMAGE = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/references.png";
 
-    public ReferencesNode(Project proj) throws DataObjectNotFoundException {
-        super(DataObject.find(proj.getProjectDirectory().getFileObject(proj.getProjectDirectory().getName() + ".csproj")).getNodeDelegate());
+    public ReferencesNode(Project proj) throws DataObjectNotFoundException, IOException {
+        super(DataObject.find(proj.getProjectDirectory().getFileObject(".nbReferences") == null ? proj.getProjectDirectory().createFolder(".nbReferences") : proj.getProjectDirectory().getFileObject(".nbReferences")).getNodeDelegate());
     }
 
     @Override

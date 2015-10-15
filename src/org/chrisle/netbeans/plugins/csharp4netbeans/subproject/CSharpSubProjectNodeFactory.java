@@ -1,6 +1,7 @@
 package org.chrisle.netbeans.plugins.csharp4netbeans.subproject;
 
 import java.awt.Image;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -35,6 +36,8 @@ public class CSharpSubProjectNodeFactory implements NodeFactory {
 //        assert subProjectProvider != null;
 //        return new SubProjectNodeList(subProjectProvider.getSubprojects());
         } catch (DataObjectNotFoundException ex) {
+            Exceptions.printStackTrace(ex);
+        } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
 
