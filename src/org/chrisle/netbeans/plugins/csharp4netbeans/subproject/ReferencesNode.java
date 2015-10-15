@@ -20,7 +20,7 @@ public class ReferencesNode extends FilterNode {
     private static final String IMAGE = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/references.png";
 
     public ReferencesNode(Project proj) throws DataObjectNotFoundException {
-        super(DataObject.find(proj.getProjectDirectory().getFileObject("bla.blau")).getNodeDelegate());
+        super(DataObject.find(proj.getProjectDirectory().getFileObject(proj.getProjectDirectory().getName() + ".csproj")).getNodeDelegate());
     }
 
     @Override
