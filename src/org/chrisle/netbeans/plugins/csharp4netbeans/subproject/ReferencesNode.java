@@ -4,9 +4,6 @@ import java.awt.Image;
 import java.io.IOException;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
-import org.netbeans.spi.project.ui.support.NodeFactory;
-import org.openide.filesystems.FileUtil;
-import org.openide.loaders.DataFolder;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.FilterNode;
@@ -39,15 +36,11 @@ public class ReferencesNode extends FilterNode {
     //badge to it by merging it via a NetBeans API utility method:
     @Override
     public Image getIcon(int type) {
-        DataFolder root = DataFolder.findFolder(FileUtil.getConfigRoot());
-        Image original = root.getNodeDelegate().getIcon(type);
-        return ImageUtilities.mergeImages(original, ImageUtilities.loadImage(IMAGE), 7, 7);
+        return ImageUtilities.loadImage(IMAGE);
     }
 
     @Override
     public Image getOpenedIcon(int type) {
-        DataFolder root = DataFolder.findFolder(FileUtil.getConfigRoot());
-        Image original = root.getNodeDelegate().getIcon(type);
-        return ImageUtilities.mergeImages(original, ImageUtilities.loadImage(IMAGE), 7, 7);
+        return ImageUtilities.loadImage(IMAGE);
     }
 }
