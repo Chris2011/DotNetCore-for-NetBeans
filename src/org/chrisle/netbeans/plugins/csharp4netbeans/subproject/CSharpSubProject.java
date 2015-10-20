@@ -2,6 +2,7 @@ package org.chrisle.netbeans.plugins.csharp4netbeans.subproject;
 
 import java.awt.Image;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -76,6 +77,8 @@ public class CSharpSubProject implements Project {
                 DataFolder projectFolder = DataFolder.findFolder(projectDirectory);
                 Node nodeOfProjectFolder = projectFolder.getNodeDelegate();
 
+//                Node nodeOfProjectFolder = new ReferencesNode(_project);
+
                 //Decorate the project directory's node:
                 return new ProjectNode(nodeOfProjectFolder, _project);
             } catch (DataObjectNotFoundException donfe) {
@@ -84,28 +87,6 @@ public class CSharpSubProject implements Project {
                 //read-only filesystem or something evil happened
                 return new AbstractNode(Children.LEAF);
             }
-            
-//            try {
-//                return new ReferencesNode(_project);
-//            try {
-//                //Obtain the project directory's node:
-//                FileObject projectDirectory = _project.getProjectDirectory();
-//                DataFolder projectFolder = DataFolder.findFolder(projectDirectory);
-//                Node nodeOfProjectFolder = projectFolder.getNodeDelegate();
-//
-//                //Decorate the project directory's node:
-//                return new ProjectNode(nodeOfProjectFolder, _project);
-//            } catch (DataObjectNotFoundException donfe) {
-//                Exceptions.printStackTrace(donfe);
-//                //Fallback-the directory couldn't be created -
-//                //read-only filesystem or something evil happened
-//                return new AbstractNode(Children.LEAF);
-//            }
-//            } catch (DataObjectNotFoundException ex) {
-//                Exceptions.printStackTrace(ex);
-//            }
-
-//            return null;
         }
 //
         private final class ProjectNode extends FilterNode {
@@ -113,9 +94,7 @@ public class CSharpSubProject implements Project {
 
             public ProjectNode(Node node, CSharpSubProject project) throws DataObjectNotFoundException {
                 super(node,
-//                        null,
                         NodeFactorySupport.createCompositeChildren(project, "Projects/org-csharp-subproject/Nodes"),
-//                        new FilterNode.Children(node), // Change back to the original
                         new ProxyLookup(
                                 new Lookup[]{
                                     Lookups.singleton(project),
@@ -123,7 +102,7 @@ public class CSharpSubProject implements Project {
                                 }));
                 this.project = project;
             }
-//
+
             @Override
             public Action[] getActions(boolean arg0) {
                 return new Action[]{

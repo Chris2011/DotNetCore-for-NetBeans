@@ -2,10 +2,12 @@ package org.chrisle.netbeans.plugins.csharp4netbeans.solution;
 
 import java.awt.Image;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import org.chrisle.netbeans.plugins.csharp4netbeans.subproject.CSharpSubProjectProvider;
+import org.chrisle.netbeans.plugins.csharp4netbeans.subproject.ReferencesNode;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectInformation;
@@ -136,6 +138,9 @@ public class CSharpSolution implements Project {
         }
     }
 
+    /**
+     * Sets icon for the project inside the project opening wizard.
+     */
     private final class Info implements ProjectInformation {
         @StaticResource()
         public static final String CSHARP_ICON = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/sln-file-folder.png";
