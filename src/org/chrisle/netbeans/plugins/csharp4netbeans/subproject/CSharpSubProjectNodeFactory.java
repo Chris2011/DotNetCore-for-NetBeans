@@ -1,11 +1,13 @@
 package org.chrisle.netbeans.plugins.csharp4netbeans.subproject;
 
+import org.chrisle.netbeans.plugins.csharp4netbeans.subproject.nodes.ReferencesNode;
 import java.awt.Image;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.swing.event.ChangeListener;
+import org.chrisle.netbeans.plugins.csharp4netbeans.subproject.nodes.PropertiesNode;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ui.support.NodeFactory;
@@ -31,7 +33,9 @@ public class CSharpSubProjectNodeFactory implements NodeFactory {
     public NodeList<?> createNodes(Project project) {
         try {
             ReferencesNode rn = new ReferencesNode(project);
-            return NodeFactorySupport.fixedNodeList(rn);
+            PropertiesNode pn = new PropertiesNode(project);
+
+            return NodeFactorySupport.fixedNodeList(rn, pn);
 //        CSharpSubProjectProvider subProjectProvider = project.getLookup().lookup(CSharpSubProjectProvider.class);
 //        assert subProjectProvider != null;
 //        return new SubProjectNodeList(subProjectProvider.getSubprojects());

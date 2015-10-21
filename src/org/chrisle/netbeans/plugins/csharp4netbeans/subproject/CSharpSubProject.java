@@ -77,8 +77,6 @@ public class CSharpSubProject implements Project {
                 DataFolder projectFolder = DataFolder.findFolder(projectDirectory);
                 Node nodeOfProjectFolder = projectFolder.getNodeDelegate();
 
-//                Node nodeOfProjectFolder = new ReferencesNode(_project);
-
                 //Decorate the project directory's node:
                 return new ProjectNode(nodeOfProjectFolder, _project);
             } catch (DataObjectNotFoundException donfe) {
