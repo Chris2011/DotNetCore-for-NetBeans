@@ -1,4 +1,4 @@
-package org.chrisle.netbeans.plugins.csharp4netbeans.subproject;
+package org.chrisle.netbeans.plugins.csharp4netbeans.subproject.nodes;
 
 import java.awt.Image;
 import java.io.IOException;
