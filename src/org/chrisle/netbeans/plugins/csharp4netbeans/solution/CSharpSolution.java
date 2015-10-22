@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import org.chrisle.netbeans.plugins.csharp4netbeans.subproject.CSharpSubProjectProvider;
+//import org.chrisle.netbeans.plugins.csharp4netbeans.subproject.CSharpSubProjectProvider;
 import org.chrisle.netbeans.plugins.csharp4netbeans.subproject.nodes.ReferencesNode;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
@@ -51,11 +51,10 @@ public class CSharpSolution implements Project {
     public Lookup getLookup() {
         if (lkp == null) {
             lkp = Lookups.fixed(new Object[]{
-                // register your features here
                 this,
                 new Info(),
-                new CSharpSolutionLogicalView(this),
-                new CSharpSubProjectProvider(this)
+                new CSharpSolutionLogicalView(this)
+//                new CSharpSubProjectProvider(this)
             });
         }
 
@@ -96,7 +95,6 @@ public class CSharpSolution implements Project {
             public ProjectNode(Node node, CSharpSolution project) throws DataObjectNotFoundException {
                 super(node,
                         NodeFactorySupport.createCompositeChildren(project, "Projects/org-csharp-project/Nodes"),
-                        // new FilterNode.Children(node),
                         new ProxyLookup(
                                 new Lookup[]{
                                     Lookups.singleton(project),
@@ -143,11 +141,11 @@ public class CSharpSolution implements Project {
      */
     private final class Info implements ProjectInformation {
         @StaticResource()
-        public static final String CSHARP_ICON = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/sln-file-folder.png";
+        public static final String SLN_ICON = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/sln-file-folder.png";
 
         @Override
         public Icon getIcon() {
-            return new ImageIcon(ImageUtilities.loadImage(CSHARP_ICON));
+            return new ImageIcon(ImageUtilities.loadImage(SLN_ICON));
         }
 
         @Override
