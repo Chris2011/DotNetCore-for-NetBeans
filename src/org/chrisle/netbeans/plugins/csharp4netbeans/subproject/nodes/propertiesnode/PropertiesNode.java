@@ -1,4 +1,4 @@
-package org.chrisle.netbeans.plugins.csharp4netbeans.subproject.nodes;
+package org.chrisle.netbeans.plugins.csharp4netbeans.subproject.nodes.propertiesnode;
 
 import java.awt.Image;
 import java.io.IOException;
@@ -13,17 +13,17 @@ import org.openide.util.ImageUtilities;
  *
  * @author chrl
  */
-public class ReferencesNode extends FilterNode {
+public class PropertiesNode extends FilterNode {
     @StaticResource
-    private static final String IMAGE = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/references.png";
+    private static final String IMAGE = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/properties.png";
 
-    public ReferencesNode(Project proj) throws DataObjectNotFoundException, IOException {
-        super(DataObject.find(proj.getProjectDirectory().getFileObject(".nbReferences") == null ? proj.getProjectDirectory().createFolder(".nbReferences") : proj.getProjectDirectory().getFileObject(".nbReferences")).getNodeDelegate());
+    public PropertiesNode(Project proj) throws DataObjectNotFoundException, IOException {
+        super(DataObject.find(proj.getProjectDirectory().getFileObject("Properties")).getNodeDelegate());
     }
 
     @Override
     public String getDisplayName() {
-        return "References";
+        return "Properties";
     }
 
     //Next, we add icons, for the default state, which is
