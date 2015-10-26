@@ -2,7 +2,6 @@ package org.chrisle.netbeans.plugins.csharp4netbeans.subproject;
 
 import java.awt.Image;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;

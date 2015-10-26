@@ -1,11 +1,11 @@
 package org.chrisle.netbeans.plugins.csharp4netbeans.solution;
 
+import org.chrisle.netbeans.plugins.csharp4netbeans.subproject.CSharpSubProjectProvider;
 import java.awt.Image;
 import java.beans.PropertyChangeListener;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import org.chrisle.netbeans.plugins.csharp4netbeans.subproject.CSharpSubProjectProvider;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectInformation;
