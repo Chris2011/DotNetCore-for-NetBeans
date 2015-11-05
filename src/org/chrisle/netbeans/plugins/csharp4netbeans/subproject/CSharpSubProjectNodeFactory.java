@@ -1,16 +1,13 @@
 package org.chrisle.netbeans.plugins.csharp4netbeans.subproject;
 
 import java.awt.Image;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.swing.event.ChangeListener;
-import org.chrisle.netbeans.plugins.csharp4netbeans.subproject.nodes.ReferencesNode.ReferencesNode;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ui.support.NodeFactory;
-import org.netbeans.spi.project.ui.support.NodeFactorySupport;
 import org.netbeans.spi.project.ui.support.NodeList;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
