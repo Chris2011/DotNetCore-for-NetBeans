@@ -2,11 +2,12 @@ package org.chrisle.netbeans.plugins.csharp4netbeans.subproject.nodes.References
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import org.netbeans.api.project.Project;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Children;
@@ -23,20 +24,19 @@ import org.xml.sax.SAXException;
  * @author chrl
  */
 class ReferencesChildFactory extends ChildFactory<String> {
+    
+    private final Project _project;
+
+    public ReferencesChildFactory(Project project) {
+        this._project = project;
+    }
 
     @Override
     protected boolean createKeys(List<String> listToPopulate) {
-        String[] objs = new String[5];
         CSharpProjFileParser sxp = new CSharpProjFileParser();
-        sxp.parseXmlDocument("info.xml");
-        NodeList resources = sxp.getResources();
-
-        for (int i = 0; i < objs.length; i++) {
-            String referenceNode = resources.item(i).getNodeName();
-            objs[i] = referenceNode;
-        }
-
-        listToPopulate.addAll(Arrays.asList(objs));
+        
+        sxp.parseXmlDocument(this._project.getProjectDirectory().getFileObject(this._project.getProjectDirectory().getName() + ".csproj").getPath());
+        listToPopulate.addAll(sxp.getResources());
 
         return true;
     }
@@ -68,26 +68,26 @@ class ReferencesChildFactory extends ChildFactory<String> {
             return this._parsedXmlDocument;
         }
         
-        public NodeList getResources() {
+        public List<String> getResources() {
             Element docElem = this._parsedXmlDocument.getDocumentElement();
-            NodeList itemGroups = docElem.getElementsByTagName("ItemGroup");
+            NodeList itemGroupsElem = docElem.getElementsByTagName("ItemGroup");
+            List<String> references = new ArrayList<>();
             
-            for (int i = 0; i < itemGroups.getLength(); i++) {
-                Element itemGroupElem = (Element)itemGroups.item(i);
+            for (int i = 0; i < itemGroupsElem.getLength(); i++) {
+                Element itemGroupElem = (Element)itemGroupsElem.item(i);
 
-                NodeList references = itemGroupElem.getElementsByTagName("Reference");
+                NodeList referencesElem = itemGroupElem.getElementsByTagName("Reference");
                 
-                if (references.getLength() > 0) {
-                    for (int j = 0; j < references.getLength(); j++) {
-                        Element referenceElem = (Element)references.item(j);
+                if (referencesElem.getLength() > 0) {
+                    for (int j = 0; j < referencesElem.getLength(); j++) {
+                        Element referenceElem = (Element)referencesElem.item(j);
 
-                        referenceElem.getAttribute("Include");
+                        references.add(referenceElem.getAttribute("Include"));
                     }
                 }
-                
             }
             
-            return null;
+            return references;
         }
     }
 }
