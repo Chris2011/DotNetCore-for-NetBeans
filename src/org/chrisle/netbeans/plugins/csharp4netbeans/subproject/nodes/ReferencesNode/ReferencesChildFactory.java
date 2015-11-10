@@ -14,6 +14,7 @@ import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
 import org.openide.util.lookup.Lookups;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -28,10 +29,10 @@ class ReferencesChildFactory extends ChildFactory<String> {
         String[] objs = new String[5];
         CSharpProjFileParser sxp = new CSharpProjFileParser();
         sxp.parseXmlDocument("info.xml");
-        NodeList elementsByTagName = sxp.getResources();
+        NodeList resources = sxp.getResources();
 
         for (int i = 0; i < objs.length; i++) {
-            String referenceNode = "Test" + i;
+            String referenceNode = resources.item(i).getNodeName();
             objs[i] = referenceNode;
         }
 
@@ -68,10 +69,22 @@ class ReferencesChildFactory extends ChildFactory<String> {
         }
         
         public NodeList getResources() {
-            NodeList elementsByTagName = this._parsedXmlDocument.getElementsByTagName("ItemGroup");
+            Element docElem = this._parsedXmlDocument.getDocumentElement();
+            NodeList itemGroups = docElem.getElementsByTagName("ItemGroup");
             
-            for (int i = 0; i < elementsByTagName.getLength(); i++) {
-                org.w3c.dom.Node item = elementsByTagName.item(i);
+            for (int i = 0; i < itemGroups.getLength(); i++) {
+                Element itemGroupElem = (Element)itemGroups.item(i);
+
+                NodeList references = itemGroupElem.getElementsByTagName("Reference");
+                
+                if (references.getLength() > 0) {
+                    for (int j = 0; j < references.getLength(); j++) {
+                        Element referenceElem = (Element)references.item(j);
+
+                        referenceElem.getAttribute("Include");
+                    }
+                }
+                
             }
             
             return null;
