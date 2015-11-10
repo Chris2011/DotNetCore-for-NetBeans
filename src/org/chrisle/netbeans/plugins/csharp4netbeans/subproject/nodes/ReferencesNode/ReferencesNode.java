@@ -14,18 +14,9 @@ public class ReferencesNode extends AbstractNode {
     @StaticResource
     private static final String IMAGE = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/references.png";
 
-    private final Project _project;
-
     public ReferencesNode(Project project) {
-        super(Children.create(new ReferencesChildFactory(), true));
+        super(Children.create(new ReferencesChildFactory(project), true));
         setDisplayName("References");
         setIconBaseWithExtension(IMAGE);
-
-//        XML xml = new XMLDocument(new File("info.xml"));
-//        String xmlString = xml.toString();
-//        System.out.println("XML as String using JCabi library : ");
-//        System.out.println(xmlString);
-
-        this._project = project;
     }
 }
