@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.chrisle.netbeans.plugins.csharp4netbeans;
+package org.chrisle.netbeans.plugins.csharp4netbeans.filetypes.cs;
 
 import javax.swing.Action;
 import javax.swing.JComponent;
@@ -19,7 +19,7 @@ import org.openide.windows.TopComponent;
 
 @MultiViewElement.Registration(
         displayName = "#LBL_CS_VISUAL",
-        iconBase = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/cs-file-nb.png",
+        iconBase = "org/chrisle/netbeans/plugins/csharp4netbeans/filetypes/cs/cs-file-nb.png",
         mimeType = "text/x-cs",
         persistenceType = TopComponent.PERSISTENCE_NEVER,
         preferredID = "CSVisual",
