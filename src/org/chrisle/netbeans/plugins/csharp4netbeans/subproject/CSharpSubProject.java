@@ -92,6 +92,7 @@ public class CSharpSubProject implements Project {
             public ProjectNode(Node node, CSharpSubProject project) throws DataObjectNotFoundException {
                 super(node,
                         NodeFactorySupport.createCompositeChildren(project, "Projects/org-csharp-subproject/Nodes"),
+//                        new FilterNode.Children(node),
                         new ProxyLookup(
                                 new Lookup[]{
                                     Lookups.singleton(project),
