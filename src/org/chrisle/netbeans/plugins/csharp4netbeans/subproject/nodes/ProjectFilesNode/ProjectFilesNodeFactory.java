@@ -39,7 +39,10 @@ public class ProjectFilesNodeFactory implements NodeFactory {
 
             for (FileObject fileObject :  this._project.getProjectDirectory().getChildren()) {
                 try {
-                    if (!fileObject.getExt().equals("csproj")) {
+                    if (!fileObject.getExt().equals("csproj") &&
+                        !fileObject.getName().equals("bin") &&
+                        !fileObject.getName().equals("obj") &&
+                        !fileObject.getName().equals("Properties")) {
                         nodes.add(DataObject.find(fileObject).getNodeDelegate());
                     }
                 } catch (DataObjectNotFoundException ex) {
