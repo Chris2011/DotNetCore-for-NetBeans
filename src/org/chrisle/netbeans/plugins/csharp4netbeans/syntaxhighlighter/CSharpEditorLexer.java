@@ -15,7 +15,7 @@ class CSharpEditorLexer implements Lexer<CSharpTokenId> {
     
     public CSharpEditorLexer(LexerRestartInfo<CSharpTokenId> lri) {
         this.info = info;
-        ANTLRCharStream charStream = new ANTLRCharStream(info.input(), "CMinusEditor", true);
+        ANTLRCharStream charStream = new ANTLRCharStream(info.input(), "CSharpEditor", true);
         lexer = new CSharpLexer(charStream);
     }
 
