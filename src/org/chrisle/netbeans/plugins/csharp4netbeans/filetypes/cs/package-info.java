@@ -1,6 +1,6 @@
 @TemplateRegistrations({
-    @TemplateRegistration(folder = "C#", content = "templates/Class.cs", iconBase = "org/chrisle/netbeans/plugins/csharp4netbeans/filetypes/cs/cs-file-nb.png"),
-    @TemplateRegistration(folder = "C#", content = "templates/Interface.cs", iconBase = "org/chrisle/netbeans/plugins/csharp4netbeans/filetypes/cs/cs-file-nb.png")
+    @TemplateRegistration(folder = "C#", content = "templates/Class.cs", iconBase = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/cs-file-folder.png"),
+    @TemplateRegistration(folder = "C#", content = "templates/Interface.cs", iconBase = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/cs-file-folder.png")
 })
 package org.chrisle.netbeans.plugins.csharp4netbeans.filetypes.cs;
 
