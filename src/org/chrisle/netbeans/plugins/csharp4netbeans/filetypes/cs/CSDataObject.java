@@ -26,7 +26,7 @@ import org.openide.windows.TopComponent;
 )
 @DataObject.Registration(
         mimeType = "text/x-cs",
-        iconBase = "org/chrisle/netbeans/plugins/csharp4netbeans/filetypes/cs/cs-file-nb.png",
+        iconBase = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/cs-file-folder.png",
         displayName = "#LBL_CS_LOADER",
         position = 300
 )
@@ -96,7 +96,7 @@ public class CSDataObject extends MultiDataObject {
 
     @MultiViewElement.Registration(
             displayName = "#LBL_CS_EDITOR",
-            iconBase = "org/chrisle/netbeans/plugins/csharp4netbeans/filetypes/cs/cs-file-nb.png",
+            iconBase = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/cs-file-folder.png",
             mimeType = "text/x-cs",
             persistenceType = TopComponent.PERSISTENCE_ONLY_OPENED,
             preferredID = "CS",

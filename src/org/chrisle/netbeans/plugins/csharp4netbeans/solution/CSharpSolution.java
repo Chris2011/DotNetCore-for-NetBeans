@@ -139,7 +139,7 @@ public class CSharpSolution implements Project {
      */
     private final class Info implements ProjectInformation {
         @StaticResource()
-        public static final String SLN_ICON = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/sln-file-folder.png";
+        public static final String SLN_ICON = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/sln-file-nb.png";
 
         @Override
         public Icon getIcon() {
