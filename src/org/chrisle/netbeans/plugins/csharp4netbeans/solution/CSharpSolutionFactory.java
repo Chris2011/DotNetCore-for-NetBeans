@@ -14,7 +14,6 @@ import org.openide.util.lookup.ServiceProvider;
  */
 @ServiceProvider(service = ProjectFactory.class)
 public class CSharpSolutionFactory implements ProjectFactory {
-
     public static final String PROJECT_FILE_EXT = "sln";
     public String _slnFileName = "";
 
@@ -22,19 +21,27 @@ public class CSharpSolutionFactory implements ProjectFactory {
     //if "*.sln" is present in a folder:
     @Override
     public boolean isProject(FileObject projectDirectory) {
-        Enumeration<? extends FileObject> data = projectDirectory.getData(true);
-        
-        while (data.hasMoreElements()) {
-            FileObject nextElement = data.nextElement();
-            
-            if (nextElement.hasExt(PROJECT_FILE_EXT)) {
-                _slnFileName = nextElement.getName().replace(".sln$", "");
-                
-                return projectDirectory.getFileObject(_slnFileName) != null;
-            }
-        }
+        _slnFileName = projectDirectory.getName();
 
-        return false;
+        return projectDirectory.getFileObject(projectDirectory.getName() + "." + PROJECT_FILE_EXT) != null;
+        
+//        Enumeration<? extends FileObject> data = projectDirectory.getData(true);
+//        
+//        while (data.hasMoreElements()) {
+//            FileObject nextElement = data.nextElement();
+//            
+//            if (nextElement.hasExt(PROJECT_FILE_EXT)) {
+//                _slnFileName = nextElement.getName();
+//                
+//                FileObject slnFile = projectDirectory.getFileObject(_slnFileName);
+//                
+//                _slnFileName = _slnFileName.replace(".sln$", "");
+//                
+//                return slnFile != null;
+//            }
+//        }
+//
+//        return false;
     }
 
     //Specifies when the project will be opened, i.e., if the project exists:

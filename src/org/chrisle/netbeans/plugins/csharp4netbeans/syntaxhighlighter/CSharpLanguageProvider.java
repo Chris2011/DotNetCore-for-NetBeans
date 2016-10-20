@@ -17,7 +17,7 @@ public class CSharpLanguageProvider extends LanguageProvider {
 
     @Override
     public Language<?> findLanguage(String mimeType) {
-        if ("text/x-cm".equals(mimeType)) {
+        if ("text/x-cs".equals(mimeType)) {
             return new CSharpLanguageHierarchy().language();
         }
 
@@ -26,7 +26,6 @@ public class CSharpLanguageProvider extends LanguageProvider {
 
     @Override
     public LanguageEmbedding<?> findLanguageEmbedding(Token<?> token, LanguagePath lp, InputAttributes ia) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
-
 }

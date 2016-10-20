@@ -150,7 +150,7 @@ public class CSharpSolution implements Project {
 
         @Override
         public String getName() {
-            return getProjectDirectory().getName();
+            return _slnName;
         }
 
         @Override
