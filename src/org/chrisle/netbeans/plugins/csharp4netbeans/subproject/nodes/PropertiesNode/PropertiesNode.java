@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.io.IOException;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
+import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.FilterNode;
 import org.openide.util.ImageUtilities;
