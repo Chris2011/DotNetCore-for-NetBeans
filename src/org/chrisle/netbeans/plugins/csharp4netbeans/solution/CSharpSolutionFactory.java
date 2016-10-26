@@ -21,27 +21,18 @@ public class CSharpSolutionFactory implements ProjectFactory {
     //if "*.sln" is present in a folder:
     @Override
     public boolean isProject(FileObject projectDirectory) {
-        _slnFileName = projectDirectory.getName();
+        FileObject[] data = projectDirectory.getChildren();
 
-        return projectDirectory.getFileObject(projectDirectory.getName() + "." + PROJECT_FILE_EXT) != null;
+        for (FileObject fileObject : data) {
+            if (fileObject.hasExt(PROJECT_FILE_EXT) && !fileObject.isFolder()) {
+                _slnFileName = fileObject.getName();
+                _slnFileName = _slnFileName.replace(".sln$", "");
+                
+                return true;
+            }
+        }
         
-//        Enumeration<? extends FileObject> data = projectDirectory.getData(true);
-//        
-//        while (data.hasMoreElements()) {
-//            FileObject nextElement = data.nextElement();
-//            
-//            if (nextElement.hasExt(PROJECT_FILE_EXT)) {
-//                _slnFileName = nextElement.getName();
-//                
-//                FileObject slnFile = projectDirectory.getFileObject(_slnFileName);
-//                
-//                _slnFileName = _slnFileName.replace(".sln$", "");
-//                
-//                return slnFile != null;
-//            }
-//        }
-//
-//        return false;
+        return false;
     }
 
     //Specifies when the project will be opened, i.e., if the project exists:
