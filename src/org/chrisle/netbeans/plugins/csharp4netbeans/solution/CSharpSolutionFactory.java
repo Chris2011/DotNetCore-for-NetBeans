@@ -1,7 +1,6 @@
 package org.chrisle.netbeans.plugins.csharp4netbeans.solution;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ProjectFactory;
 import org.netbeans.spi.project.ProjectState;
