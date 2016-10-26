@@ -32,11 +32,13 @@ import org.openide.util.lookup.ProxyLookup;
 public class CSharpSubProject implements Project {
     private final FileObject _projectDir;
     private final ProjectState _state;
+    private final String _csProjName;
     private Lookup lkp;
 
-    CSharpSubProject(FileObject dir, ProjectState state) {
+    CSharpSubProject(FileObject dir, ProjectState state, String csProjName) {
         this._projectDir = dir;
         this._state = state;
+        this._csProjName = csProjName;
     }
 
     @Override
@@ -123,7 +125,7 @@ public class CSharpSubProject implements Project {
 
             @Override
             public String getDisplayName() {
-                return project.getProjectDirectory().getName();
+                return _csProjName;
             }
         }
 
