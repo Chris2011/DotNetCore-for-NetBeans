@@ -1,11 +1,11 @@
 package org.chrisle.netbeans.plugins.csharp4netbeans.solution;
 
+import org.chrisle.netbeans.plugins.csharp4netbeans.subproject.CSharpSubProjectProvider;
 import java.awt.Image;
 import java.beans.PropertyChangeListener;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import org.chrisle.netbeans.plugins.csharp4netbeans.subproject.CSharpSubProjectProvider;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectInformation;
@@ -33,11 +33,13 @@ import org.openide.util.lookup.ProxyLookup;
 public class CSharpSolution implements Project {
     private final FileObject _projectDir;
     private final ProjectState _state;
+    private final String _slnName;
     private Lookup lkp;
 
-    CSharpSolution(FileObject dir, ProjectState state) {
+    CSharpSolution(FileObject dir, ProjectState state, String slnName) {
         this._projectDir = dir;
         this._state = state;
+        this._slnName = slnName;
     }
 
     @Override
@@ -49,7 +51,6 @@ public class CSharpSolution implements Project {
     public Lookup getLookup() {
         if (lkp == null) {
             lkp = Lookups.fixed(new Object[]{
-                // register your features here
                 this,
                 new Info(),
                 new CSharpSolutionLogicalView(this),
@@ -94,12 +95,11 @@ public class CSharpSolution implements Project {
             public ProjectNode(Node node, CSharpSolution project) throws DataObjectNotFoundException {
                 super(node,
                         NodeFactorySupport.createCompositeChildren(project, "Projects/org-csharp-project/Nodes"),
-                        // new FilterNode.Children(node),
                         new ProxyLookup(
-                                new Lookup[]{
-                                    Lookups.singleton(project),
-                                    node.getLookup()
-                                }));
+                            new Lookup[]{
+                                Lookups.singleton(project),
+                                node.getLookup()
+                            }));
                 this.project = project;
             }
 
@@ -125,7 +125,7 @@ public class CSharpSolution implements Project {
 
             @Override
             public String getDisplayName() {
-                return "Solution '" + project.getProjectDirectory().getName() + "' (Number of projects)";
+                return "Solution '" + _slnName + "' (Number of projects)";
             }
         }
 
@@ -136,18 +136,21 @@ public class CSharpSolution implements Project {
         }
     }
 
+    /**
+     * Sets icon for the project inside the project opening wizard.
+     */
     private final class Info implements ProjectInformation {
         @StaticResource()
-        public static final String CSHARP_ICON = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/sln-file-folder.png";
+        public static final String SLN_ICON = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/sln-file-nb.png";
 
         @Override
         public Icon getIcon() {
-            return new ImageIcon(ImageUtilities.loadImage(CSHARP_ICON));
+            return new ImageIcon(ImageUtilities.loadImage(SLN_ICON));
         }
 
         @Override
         public String getName() {
-            return getProjectDirectory().getName();
+            return _slnName;
         }
 
         @Override

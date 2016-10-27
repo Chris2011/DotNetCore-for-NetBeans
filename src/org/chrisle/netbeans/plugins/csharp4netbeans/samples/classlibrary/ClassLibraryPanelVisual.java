@@ -31,6 +31,7 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
         // Register listener on the textFields to make the automatic updates
         projectNameTextField.getDocument().addDocumentListener(this);
         projectLocationTextField.getDocument().addDocumentListener(this);
+        createdFolderTextField.getDocument().addDocumentListener(this);
 
         solutionOptions = new ArrayList<>();
         solutionOptions.add("Create new solution");
@@ -41,13 +42,14 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
         enableSolutionField();
 
         changeSolutionInstance.addItemListener((e) -> {
+            panel.isValid();
             enableSolutionField();
         });
     }
 
     private void enableSolutionField() {
         int selectedIndex = changeSolutionInstance.getSelectedIndex();
-        projectLocationTextField.setEnabled(selectedIndex == 0);
+        createdFolderTextField.setEnabled(selectedIndex == 0);
     }
 
     private void setChangeSolutionInstance(List<String> options) {
@@ -93,8 +95,6 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
 
         createdFolderLabel.setLabelFor(createdFolderTextField);
         org.openide.awt.Mnemonics.setLocalizedText(createdFolderLabel, org.openide.util.NbBundle.getMessage(ClassLibraryPanelVisual.class, "ClassLibraryPanelVisual.createdFolderLabel.text")); // NOI18N
-
-        createdFolderTextField.setEditable(false);
 
         projectLocationLabel1.setLabelFor(projectLocationTextField);
         org.openide.awt.Mnemonics.setLocalizedText(projectLocationLabel1, org.openide.util.NbBundle.getMessage(ClassLibraryPanelVisual.class, "ClassLibraryPanelVisual.projectLocationLabel1.text")); // NOI18N
@@ -221,12 +221,26 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
         }
 
         File[] kids = destFolder.listFiles();
-        if (destFolder.exists() && kids != null && kids.length > 0) {
-            // Folder exists and is not empty
-            wizardDescriptor.putProperty("WizardPanel_errorMessage",
-                    "Project Folder already exists and is not empty.");
-            return false;
+        
+        if (changeSolutionInstance.getSelectedIndex() == 0 &&
+            (destFolder.exists() && kids != null && kids.length > 0)) {
+                // Solution Folder exists and is not empty
+                wizardDescriptor.putProperty("WizardPanel_errorMessage",
+                        "Solution Folder already exists and is not empty.");
+                return false;
+        } else {
+            if(destFolder.exists() && kids != null && kids.length > 0) {
+                for (File project : kids) {
+                    if (project.getName().equals(projectNameTextField.getText())) {
+                        // Project Folder exists and is not empty
+                        wizardDescriptor.putProperty("WizardPanel_errorMessage",
+                                "Project Folder already exists and is not empty.");
+                        return false;
+                    }
+                }
+            }
         }
+        
         wizardDescriptor.putProperty("WizardPanel_errorMessage", "");
         return true;
     }
@@ -237,6 +251,7 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
 
         d.putProperty("projdir", new File(folder));
         d.putProperty("name", name);
+        d.putProperty("newSln", changeSolutionInstance.getSelectedIndex());
     }
 
     void read(WizardDescriptor settings) {
@@ -296,9 +311,10 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
             String projectFolder = projectLocationTextField.getText();
 
             //if (projectFolder.trim().length() == 0 || projectFolder.equals(oldName)) {
-            createdFolderTextField.setText(projectFolder + File.separatorChar + projectName);
+            if (createdFolderTextField.isEnabled()) {
+                createdFolderTextField.setText(projectFolder + File.separatorChar + projectName);
+            }
             //}
-
         }
         panel.fireChangeEvent(); // Notify that the panel changed
     }

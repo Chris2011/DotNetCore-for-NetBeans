@@ -32,11 +32,13 @@ import org.openide.util.lookup.ProxyLookup;
 public class CSharpSubProject implements Project {
     private final FileObject _projectDir;
     private final ProjectState _state;
+    private final String _csProjName;
     private Lookup lkp;
 
-    CSharpSubProject(FileObject dir, ProjectState state) {
+    CSharpSubProject(FileObject dir, ProjectState state, String csProjName) {
         this._projectDir = dir;
         this._state = state;
+        this._csProjName = csProjName;
     }
 
     @Override
@@ -85,14 +87,14 @@ public class CSharpSubProject implements Project {
                 return new AbstractNode(Children.LEAF);
             }
         }
-
+//
         private final class ProjectNode extends FilterNode {
             final CSharpSubProject project;
 
             public ProjectNode(Node node, CSharpSubProject project) throws DataObjectNotFoundException {
                 super(node,
-//                        NodeFactorySupport.createCompositeChildren(project, "Projects/org-csharp-subproject/Nodes"),
-                         new FilterNode.Children(node),
+                        NodeFactorySupport.createCompositeChildren(project, "Projects/org-csharp-subproject/Nodes"),
+//                        new FilterNode.Children(node),
                         new ProxyLookup(
                                 new Lookup[]{
                                     Lookups.singleton(project),
@@ -123,7 +125,7 @@ public class CSharpSubProject implements Project {
 
             @Override
             public String getDisplayName() {
-                return project.getProjectDirectory().getName();
+                return _csProjName;
             }
         }
 
@@ -136,7 +138,7 @@ public class CSharpSubProject implements Project {
 
     private final class Info implements ProjectInformation {
         @StaticResource()
-        public static final String CSHARP_ICON = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/cs-file-folder.png";
+        public static final String CSHARP_ICON = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/cs-project-folder.png";
 
         @Override
         public Icon getIcon() {
