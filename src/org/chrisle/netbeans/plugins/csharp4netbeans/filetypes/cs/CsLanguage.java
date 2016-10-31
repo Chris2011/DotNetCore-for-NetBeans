@@ -1,9 +1,11 @@
 package org.chrisle.netbeans.plugins.csharp4netbeans.filetypes.cs;
 
 import org.chrisle.netbeans.plugins.csharp4netbeans.filetypes.cs.lexer.CsTokenId;
+import org.chrisle.netbeans.plugins.csharp4netbeans.filetypes.cs.parser.CsParser;
 import org.netbeans.api.lexer.Language;
 import org.netbeans.modules.csl.spi.DefaultLanguageConfig;
 import org.netbeans.modules.csl.spi.LanguageRegistration;
+import org.netbeans.modules.parsing.spi.Parser;
 
 /**
  *
@@ -19,5 +21,10 @@ public class CsLanguage extends DefaultLanguageConfig {
     @Override
     public String getDisplayName() {
         return "Cs";
+    }
+    
+    @Override
+    public Parser getParser() {
+        return new CsParser();
     }
 }
