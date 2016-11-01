@@ -2,11 +2,15 @@ package org.chrisle.netbeans.plugins.csharp4netbeans.filetypes.cs.parser;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.ChangeListener;
 import org.chrisle.netbeans.plugins.csharp4netbeans.filetypes.cs.jccparser.JavaParser;
 import org.chrisle.netbeans.plugins.csharp4netbeans.filetypes.cs.jccparser.ParseException;
+import org.netbeans.modules.csl.api.Error;
+import org.netbeans.modules.csl.spi.ParserResult;
 import org.netbeans.modules.parsing.api.Snapshot;
 import org.netbeans.modules.parsing.api.Task;
 import org.netbeans.modules.parsing.spi.Parser;
@@ -33,7 +37,7 @@ public class CsParser extends Parser {
     }
 
     @Override
-    public Result getResult (Task task) {
+    public ParserResult getResult (Task task) {
         return new CsParserResult (snapshot, javaParser);
     }
 
@@ -50,8 +54,7 @@ public class CsParser extends Parser {
     }
 
     
-    public static class CsParserResult extends Result {
-
+    public static class CsParserResult extends ParserResult {
         private JavaParser javaParser;
         private boolean valid = true;
 
@@ -68,6 +71,11 @@ public class CsParser extends Parser {
         @Override
         protected void invalidate () {
             valid = false;
+        }
+
+        @Override
+        public List<? extends Error> getDiagnostics() {
+            return new ArrayList<Error>();
         }
     }   
 }
