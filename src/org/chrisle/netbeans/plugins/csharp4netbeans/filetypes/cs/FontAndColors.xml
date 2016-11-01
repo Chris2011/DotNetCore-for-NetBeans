@@ -5,7 +5,7 @@
     <fontcolor name="character" default="char" />
     <fontcolor name="errors" default="error" />
     <fontcolor name="identifier" default="identifier" />
-    <fontcolor name="keyword" default="keyword" foreColor="#62B1FE" />
+    <fontcolor name="keyword" default="keyword" foreColor="62B1FE" />
     <fontcolor name="literal" default="keyword" />
     <fontcolor name="comment" default="comment" />
     <fontcolor name="number" default="number" />
