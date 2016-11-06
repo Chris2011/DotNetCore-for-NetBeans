@@ -1,4 +1,4 @@
-<h1>CSharp-for-netbeans (WORK IN PROGRESS)</h1>
+<h1>CSharp-for-netbeans - Project: Goliath (WORK IN PROGRESS)</h1>
 Brings C# support to netbeans (Create projects, open Projects, etc.)
 
 <img src="screenshots/wpfAppInNetBeans.png" alt="opened wpf project in netbeans" />
