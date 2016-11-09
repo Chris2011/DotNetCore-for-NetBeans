@@ -15,3 +15,5 @@ Brings C# support to netbeans (Create projects, open Projects, etc.)
     <li>Braces matching</li>
     <li>Reformat code</li>
 </ol>
+
+<p>If you find some bugs please report it.</p>
