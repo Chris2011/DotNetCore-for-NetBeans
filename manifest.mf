@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-AutoUpdate-Show-In-Client: true
-OpenIDE-Module: org.chrisle.netbeans.plugins.csharp4netbeans
-OpenIDE-Module-Layer: org/chrisle/netbeans/plugins/csharp4netbeans/layer.xml
-OpenIDE-Module-Localizing-Bundle: org/chrisle/netbeans/plugins/csharp4netbeans/Bundle.properties
-OpenIDE-Module-Specification-Version: 0.0.0.3
-
