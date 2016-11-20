@@ -12,7 +12,6 @@ import org.openide.nodes.AbstractNode;
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
-import org.openide.util.Exceptions;
 import org.openide.util.lookup.Lookups;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -57,10 +56,10 @@ class ReferencesChildFactory extends ChildFactory<String> {
             try {
                 DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
                 DocumentBuilder db = dbf.newDocumentBuilder();
-
+                
                 this._parsedXmlDocument = db.parse(new File(xmlDocument));
             } catch (SAXException | IOException | ParserConfigurationException ex) {
-                Exceptions.printStackTrace(ex);
+                
             }
         }
         
@@ -69,20 +68,23 @@ class ReferencesChildFactory extends ChildFactory<String> {
         }
         
         public List<String> getResources() {
-            Element docElem = this._parsedXmlDocument.getDocumentElement();
-            NodeList itemGroupsElem = docElem.getElementsByTagName("ItemGroup");
             List<String> references = new ArrayList<>();
             
-            for (int i = 0; i < itemGroupsElem.getLength(); i++) {
-                Element itemGroupElem = (Element)itemGroupsElem.item(i);
-
-                NodeList referencesElem = itemGroupElem.getElementsByTagName("Reference");
+            if (this._parsedXmlDocument != null) {
+                Element docElem = this._parsedXmlDocument.getDocumentElement();
+                NodeList itemGroupsElem = docElem.getElementsByTagName("ItemGroup");
                 
-                if (referencesElem.getLength() > 0) {
-                    for (int j = 0; j < referencesElem.getLength(); j++) {
-                        Element referenceElem = (Element)referencesElem.item(j);
-
-                        references.add(referenceElem.getAttribute("Include"));
+                for (int i = 0; i < itemGroupsElem.getLength(); i++) {
+                    Element itemGroupElem = (Element) itemGroupsElem.item(i);
+                    
+                    NodeList referencesElem = itemGroupElem.getElementsByTagName("Reference");
+                    
+                    if (referencesElem.getLength() > 0) {
+                        for (int j = 0; j < referencesElem.getLength(); j++) {
+                            Element referenceElem = (Element) referencesElem.item(j);
+                            
+                            references.add(referenceElem.getAttribute("Include"));
+                        }
                     }
                 }
             }
