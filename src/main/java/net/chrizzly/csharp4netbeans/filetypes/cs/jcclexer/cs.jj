@@ -60,20 +60,12 @@ TOKEN :
 
 MORE :
 {
-  <"/**" ~["/"]> { input_stream.backup(1); } : IN_FORMAL_COMMENT
-|
-  "/*" : IN_MULTI_LINE_COMMENT
+  <"/*"> : IN_MULTI_LINE_COMMENT
 }
 
 TOKEN :
 {
   <SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n" | "\r" | "\r\n")?>
-}
-
-<IN_FORMAL_COMMENT>
-TOKEN :
-{
-  <FORMAL_COMMENT: "*/" > : DEFAULT
 }
 
 <IN_MULTI_LINE_COMMENT>
@@ -82,7 +74,7 @@ TOKEN :
   <MULTI_LINE_COMMENT: "*/" > : DEFAULT
 }
 
-<IN_FORMAL_COMMENT,IN_MULTI_LINE_COMMENT>
+<IN_MULTI_LINE_COMMENT>
 MORE :
 {
   < ~[] >
