@@ -67,7 +67,7 @@ MORE :
 
 TOKEN :
 {
-  <SINGLE_LINE_COMMENT: "//" (~["\n", "\r"])* ("\n" | "\r" | "\r\n")?>
+  <SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n" | "\r" | "\r\n")?>
 }
 
 <IN_FORMAL_COMMENT>
