@@ -18,7 +18,7 @@ public class PropertiesNode extends FilterNode {
     private static final String IMAGE = "net/chrizzly/csharp4netbeans/properties.png";
 
     public PropertiesNode(Project proj) throws DataObjectNotFoundException, IOException {
-        super(DataObject.find(proj.getProjectDirectory().getFileObject("Properties")).getNodeDelegate());
+        super(DataObject.find(proj.getProjectDirectory().getFileObject("Properties") != null ? proj.getProjectDirectory().getFileObject("Properties") : proj.getProjectDirectory().getCanonicalFileObject()).getNodeDelegate());
     }
 
     @Override
