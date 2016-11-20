@@ -23,7 +23,7 @@ public class CSharpSubProjectFactory implements ProjectFactory {
         FileObject[] data = projectDirectory.getChildren();
         
         for (FileObject fileObject : data) {    
-        if (fileObject.hasExt(PROJECT_FILE_EXT) && !fileObject.isFolder()) {
+            if (fileObject.hasExt(PROJECT_FILE_EXT) && !fileObject.isFolder()) {
                 _csProjFileName = fileObject.getName();
                 _csProjFileName = _csProjFileName.replace(".csproj$", "");
                 
