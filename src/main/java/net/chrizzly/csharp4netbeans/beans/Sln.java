@@ -17,7 +17,7 @@ public class Sln {
                                                     // nv_2008 = "10.00"  
                                                     // nv_2010 = "11.00"  
                                                     // nv_2012 = "12.00" 
-    private final String _commentVersion = "# Netbeans 8.0.2"; // TODO: Dynamic Netbeans version.
+    private final String _commentVersion = "# " + System.getProperty("netbeans.productversion"); // TODO: Dynamic Netbeans version.
     private final String _minimumVSVersion = "MinimumVisualStudioVersion = 10.0.40219.1\n\n";
 
     private String _slnName;
