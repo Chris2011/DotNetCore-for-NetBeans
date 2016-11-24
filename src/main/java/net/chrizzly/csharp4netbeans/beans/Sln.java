@@ -48,6 +48,10 @@ public class Sln {
         this._slnPath = slnPath;
     }
     
+    public void addProject(String projectGuid) {
+        // TODO: Add Project Guid and Path to the SLN file.
+    }
+    
     public String getProjectSection() {
         return "# Created with Netbeans\n# StartProjectSection\n# EndProjectSection\n\n";
     }
