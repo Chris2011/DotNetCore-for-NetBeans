@@ -33,6 +33,21 @@
                     <useDefaultManifestFile>true</useDefaultManifestFile>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.tunnelvisionlabs</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>4.7</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <libDirectory>src/main/antlr4/net/chrizzly/csharp4netbeans/filetypes</libDirectory>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <repositories>
@@ -161,6 +176,21 @@
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-text</artifactId>
             <version>${netbeans.platform.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tunnelvisionlabs</groupId>
+            <artifactId>antlr4-maven-plugin</artifactId>
+            <version>4.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sonatype.sisu</groupId>
+            <artifactId>sisu-inject-plexus</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tunnelvisionlabs</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>4.7</version>
         </dependency>
     </dependencies>
     <properties>
