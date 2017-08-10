@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.zip.ZipInputStream;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeListener;
-import net.chrizzly.csharp4netbeans.beans.CSharpProjectType;
+import net.chrizzly.csharp4netbeans.beans.projecttypes.CSharpProjectType;
 import net.chrizzly.csharp4netbeans.beans.Sln;
 import net.chrizzly.csharp4netbeans.utils.ProjectGenerator;
 import net.chrizzly.csharp4netbeans.utils.SlnGenerator;

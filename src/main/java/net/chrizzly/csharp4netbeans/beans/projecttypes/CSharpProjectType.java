@@ -1,4 +1,4 @@
-package net.chrizzly.csharp4netbeans.beans;
+package net.chrizzly.csharp4netbeans.beans.projecttypes;
 
 import java.util.UUID;
 

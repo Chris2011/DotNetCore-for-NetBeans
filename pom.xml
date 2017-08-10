@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.chrizzly</groupId>
     <artifactId>CSharp4Netbeans</artifactId>
-    <version>0.0.0.4-SNAPSHOT</version>
+    <version>0.0.0.5-SNAPSHOT</version>
     <packaging>nbm</packaging>
     <build>
         <plugins>
@@ -12,9 +12,6 @@
                 <artifactId>nbm-maven-plugin</artifactId>
                 <version>3.13</version>
                 <extensions>true</extensions>
-                <configuration>
-                    <useOSGiDependencies>true</useOSGiDependencies>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -57,6 +54,16 @@
             <url>http://bits.netbeans.org/nexus/content/groups/netbeans</url>
             <snapshots>
                 <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>central</id>
+            <url>http://repo1.maven.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
             </snapshots>
         </repository>
     </repositories>
@@ -185,7 +192,7 @@
         <dependency>
             <groupId>org.sonatype.sisu</groupId>
             <artifactId>sisu-inject-plexus</artifactId>
-            <version>2.3.0</version>
+            <version>2.6.0</version>
         </dependency>
         <dependency>
             <groupId>com.tunnelvisionlabs</groupId>

@@ -14,31 +14,36 @@ import org.netbeans.spi.lexer.LexerRestartInfo;
  * @author Chrl
  */
 public class CsLanguageHierarchy extends LanguageHierarchy<CsTokenId> {
-    private static List<CsTokenId> tokens = new ArrayList<CsTokenId>();
-    private static Map<Integer, CsTokenId> idToToken = new HashMap<Integer, CsTokenId>();
+    private static final List<CsTokenId> tokens = new ArrayList<CsTokenId>();
+    private static final Map<Integer, CsTokenId> idToToken = new HashMap<Integer, CsTokenId>();
 
     static {
         TokenType[] tokenTypes = TokenType.values();
+
         for (TokenType tokenType : tokenTypes) {
             tokens.add(new CsTokenId(tokenType.name(), tokenType.category, tokenType.id));
         }
-        for (CsTokenId token : tokens) {
+
+        tokens.forEach(token -> {
             idToToken.put(token.ordinal(), token);
-        }
+        });
     }
 
     static synchronized CsTokenId getToken(int id) {
         return idToToken.get(id);
     }
 
+    @Override
     protected synchronized Collection<CsTokenId> createTokenIds() {
         return tokens;
     }
 
+    @Override
     protected synchronized Lexer<CsTokenId> createLexer(LexerRestartInfo<CsTokenId> info) {
         return new CsLexer(info);
     }
 
+    @Override
     protected String mimeType() {
         return "text/x-cs";
     }
