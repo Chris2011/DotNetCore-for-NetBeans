@@ -10,14 +10,8 @@ public class Sln {
 
     private final String _visualStudioSlnFile = "Microsoft Visual Studio Solution File";
     private final String _formatVersion = "Format Version";
-    private final String _numericVersion = "12.00"; // TODO numeric-version = nv_2002 | nv_2003 | nv_2005 | nv_2008 | nv_2010 | nv_2012  
-                                                    // nv_2002 = "7.00"  
-                                                    // nv_2003 = "8.00"  
-                                                    // nv_2005 = "9.00"  
-                                                    // nv_2008 = "10.00"  
-                                                    // nv_2010 = "11.00"  
-                                                    // nv_2012 = "12.00" 
-    private final String _commentVersion = "# Netbeans 8.0.2"; // TODO: Dynamic Netbeans version.
+    private final String _numericVersion = "12.00";
+    private final String _commentVersion = "# " + System.getProperty("netbeans.productversion"); // TODO: Dynamic Netbeans version.
     private final String _minimumVSVersion = "MinimumVisualStudioVersion = 10.0.40219.1\n\n";
 
     private String _slnName;
@@ -46,6 +40,23 @@ public class Sln {
 
     public void setSlnPath(String slnPath) {
         this._slnPath = slnPath;
+    }
+    
+    /**
+     * Adds Projects to the SLN file like in this format
+     * Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WebApplication1", "src\WebApplication1\WebApplication1.xproj", "{CE0F9028-0B70-40ED-9DDF-E912208E84EA}"
+     * @param projectGuid 
+     */
+    public void addProject(String projectGuid) {
+        // TODO: Add Project Guid and Path to the SLN file.
+    }
+    
+    /**
+     * Removed a project in case of using the project guid from the sln file.
+     * @param projectGuid 
+     */
+    public void removeProject(String projectGuid) {
+        // TODO: Remove Project Guid and Path from SLN file.
     }
     
     public String getProjectSection() {

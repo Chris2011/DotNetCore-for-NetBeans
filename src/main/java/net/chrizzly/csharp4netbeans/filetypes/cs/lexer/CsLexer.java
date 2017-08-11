@@ -1,36 +1,41 @@
 package net.chrizzly.csharp4netbeans.filetypes.cs.lexer;
 
-import net.chrizzly.csharp4netbeans.filetypes.cs.jcclexer.JavaCharStream;
-import net.chrizzly.csharp4netbeans.filetypes.cs.jcclexer.JavaParserTokenManager;
-import net.chrizzly.csharp4netbeans.filetypes.cs.jcclexer.Token;
+import net.chrizzly.csharp4netbeans.filetypes.cs.CSharpLexer;
+import org.antlr.v4.runtime.Token;
 import org.netbeans.spi.lexer.Lexer;
 import org.netbeans.spi.lexer.LexerRestartInfo;
 
+/**
+ *
+ * @author Chrl
+ */
 public class CsLexer implements Lexer<CsTokenId> {
     private LexerRestartInfo<CsTokenId> info;
-    private JavaParserTokenManager javaParserTokenManager;
 
-    CsLexer(LexerRestartInfo<CsTokenId> info) {
+    private CSharpLexer csharpLexer;
+
+    public CsLexer(LexerRestartInfo<CsTokenId> info) {
         this.info = info;
-        JavaCharStream stream = new JavaCharStream(info.input());
-        javaParserTokenManager = new JavaParserTokenManager(stream);
+
+        AntlrCharStream charStream = new AntlrCharStream(info.input(), "CSharpEditor");
+        csharpLexer = new CSharpLexer(charStream);
     }
 
-    @Override
     public org.netbeans.api.lexer.Token<CsTokenId> nextToken() {
-        Token token = javaParserTokenManager.getNextToken();
-        if (info.input().readLength() < 1) {
-            return null;
+        Token token = csharpLexer.nextToken();
+
+        if (token.getType() != CSharpLexer.EOF) {
+            CsTokenId tokenId = CsLanguageHierarchy.getToken(token.getType());
+
+            return info.tokenFactory().createToken(tokenId);
         }
-        return info.tokenFactory().createToken(CsLanguageHierarchy.getToken(token.kind));
+
+        return null;
     }
 
-    @Override
     public Object state() {
         return null;
     }
 
-    @Override
-    public void release() {
-    }
+    public void release() {}
 }

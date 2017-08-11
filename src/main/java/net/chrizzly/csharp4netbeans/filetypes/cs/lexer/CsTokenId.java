@@ -5,35 +5,33 @@ import org.netbeans.api.lexer.TokenId;
 
 /**
  *
- * @author Chrizzly
+ * @author Chrl
  */
 public class CsTokenId implements TokenId {
-    private final String _name;
-    private final String _primaryCategory;
-    private final int _id;
+    private static final Language<CsTokenId> language = new CsLanguageHierarchy().language();
+    private final String name;
+    private final String primaryCategory;
+    private final int id;
 
     public CsTokenId(String name, String primaryCategory, int id) {
-        this._name = name;
-        this._primaryCategory = primaryCategory;
-        this._id = id;
-    }
-    
-    @Override
-    public String name() {
-        return _name;
+        this.name = name;
+        this.primaryCategory = primaryCategory;
+        this.id = id;
     }
 
-    @Override
-    public int ordinal() {
-        return _id;
-    }
-
-    @Override
     public String primaryCategory() {
-        return _primaryCategory;
-    } 
-    
-    public static Language<CsTokenId> getLanguage() {
-        return new CsLanguageHierarchy().language();
+        return primaryCategory;
+    }
+
+    public int ordinal() {
+        return id;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    public static final Language<CsTokenId> getLanguage() {
+        return language;
     }
 }

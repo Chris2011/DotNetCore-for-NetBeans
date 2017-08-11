@@ -22,7 +22,7 @@ public class CsLanguage extends DefaultLanguageConfig {
     public String getDisplayName() {
         return "Cs";
     }
-    
+
     @Override
     public Parser getParser() {
         return new CsParser();

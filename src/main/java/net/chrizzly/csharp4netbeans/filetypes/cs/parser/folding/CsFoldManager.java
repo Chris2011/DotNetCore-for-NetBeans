@@ -47,14 +47,14 @@ public class CsFoldManager implements FoldManager {
                 start = offset;
                 try {
                     operation.addToHierarchy(
-                        type, 
-                        type.toString(), 
-                        false, 
-                        start, 
-                        offset + token.length(), 
-                        0, 
-                        0, 
-                        hierarchy, 
+                        type,
+                        type.toString(),
+                        false,
+                        start,
+                        offset + token.length(),
+                        0,
+                        0,
+                        hierarchy,
                         transaction);
                 } catch (BadLocationException ex) {
                     Exceptions.printStackTrace(ex);
@@ -90,5 +90,5 @@ public class CsFoldManager implements FoldManager {
     @Override
     public void release() {
     }
-    
+
 }

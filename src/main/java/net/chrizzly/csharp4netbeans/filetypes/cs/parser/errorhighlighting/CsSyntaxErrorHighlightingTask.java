@@ -5,9 +5,9 @@ import java.util.List;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
-import net.chrizzly.csharp4netbeans.filetypes.cs.jccparser.ParseException;
-import net.chrizzly.csharp4netbeans.filetypes.cs.jccparser.Token;
-import net.chrizzly.csharp4netbeans.filetypes.cs.parser.CsParser.CsParserResult;
+import net.chrizzly.csharp4netbeans.filetypes.cs.parser.CsError;
+import net.chrizzly.csharp4netbeans.filetypes.cs.parser.CsParser;
+//import net.chrizzly.csharp4netbeans.filetypes.cs.parser.CsParser.CsParserResult;
 import org.netbeans.modules.parsing.spi.Parser.Result;
 import org.netbeans.modules.parsing.spi.ParserResultTask;
 import org.netbeans.modules.parsing.spi.Scheduler;
@@ -17,53 +17,61 @@ import org.netbeans.spi.editor.hints.ErrorDescriptionFactory;
 import org.netbeans.spi.editor.hints.HintsController;
 import org.netbeans.spi.editor.hints.Severity;
 import org.openide.text.NbDocument;
-import org.openide.util.Exceptions;
 
 /**
  *
  * @author chrl
  */
 public class CsSyntaxErrorHighlightingTask extends ParserResultTask {
+    public void run(Result result, SchedulerEvent event) {
+            CsParser.CsEditorParserResult csResult = (CsParser.CsEditorParserResult) result;
+            CsError error = csResult.getError();
 
-    @Override
-    public void run (Result result, SchedulerEvent event) {
+            if (error == null) {
+                return;
+            }
+
+            Document document = result.getSnapshot().getSource().getDocument(false);
+            List<ErrorDescription> errors = new ArrayList<ErrorDescription>();
+
         try {
-            CsParserResult sjResult = (CsParserResult) result;
-            List<ParseException> syntaxErrors = sjResult.getJavaParser ().syntaxErrors;
-            Document document = result.getSnapshot ().getSource ().getDocument (false);
-            List<ErrorDescription> errors = new ArrayList<ErrorDescription> ();
-            for (ParseException syntaxError : syntaxErrors) {
-                Token token = syntaxError.currentToken;
-                int start = NbDocument.findLineOffset ((StyledDocument) document, token.beginLine - 1) + token.beginColumn - 1;
-                int end = NbDocument.findLineOffset ((StyledDocument) document, token.endLine - 1) + token.endColumn;
-                ErrorDescription errorDescription = ErrorDescriptionFactory.createErrorDescription(
+            int start = NbDocument.findLineOffset ((StyledDocument) document, error.line - 1) + error.column - 1;
+
+            ErrorDescription errorDescription = ErrorDescriptionFactory.createErrorDescription(
                     Severity.ERROR,
-                    syntaxError.getMessage (),
+                    error.message,
                     document,
                     document.createPosition(start),
-                    document.createPosition(end)
-                );
-                errors.add (errorDescription);
-            }
-            HintsController.setErrors (document, "C#", errors);
-        } catch (BadLocationException ex1) {
-            Exceptions.printStackTrace (ex1);
-        } catch (org.netbeans.modules.parsing.spi.ParseException ex1) {
-            Exceptions.printStackTrace (ex1);
+                    document.createPosition(start)
+            );
+
+            errors.add(errorDescription);
+            HintsController.setErrors(document, "cs", errors);
+
+//            for (SyntaxError syntaxError : syntaxErrors) {
+//                RecognitionException exception = syntaxError.exception;
+//                String message = syntaxError.message;
+//
+//                int line = exception.line;
+//                if (line <= 0) {
+//                    continue;
+//                }
+//            }
+        } catch (BadLocationException ex) {
+            ex.printStackTrace();
         }
     }
 
     @Override
-    public int getPriority () {
+    public int getPriority() {
         return 100;
     }
 
     @Override
-    public Class getSchedulerClass () {
+    public Class<? extends Scheduler> getSchedulerClass() {
         return Scheduler.EDITOR_SENSITIVE_TASK_SCHEDULER;
     }
 
     @Override
-    public void cancel () {
-    }
+    public void cancel() {}
 }
