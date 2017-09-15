@@ -117,15 +117,15 @@ public enum TokenType {
     WHILE(110, "keyword"),
     YIELD(111, "keyword"),
     IDENTIFIER(112, "identifier"),
-    LITERAL_ACCESS(113, "text"),
-    INTEGER_LITERAL(114, "literal"),
-    HEX_INTEGER_LITERAL(115, "literal"),
+    LITERAL_ACCESS(113, "string"),
+    INTEGER_LITERAL(114, "number"),
+    HEX_INTEGER_LITERAL(115, "string"),
     REAL_LITERAL(116, "literal"),
-    CHARACTER_LITERAL(117, "literal"),
-    REGULAR_STRING(118, "literal"),
-    VERBATIUM_STRING(119, "literal"),
-    INTERPOLATED_REGULAR_STRING_START(120, "literal"),
-    INTERPOLATED_VERBATIUM_STRING_START(121, "literal"),
+    CHARACTER_LITERAL(117, "character"),
+    REGULAR_STRING(118, "string"),
+    VERBATIUM_STRING(119, "string"),
+    INTERPOLATED_REGULAR_STRING_START(120, "string"),
+    INTERPOLATED_VERBATIUM_STRING_START(121, "string"),
     OPEN_BRACE(122, "operator"),
     CLOSE_BRACE(123, "operator"),
     OPEN_BRACKET(124, "operator"),
@@ -197,8 +197,7 @@ public enum TokenType {
     DIRECTIVE_NEW_LINE(190, "character"),
     TEXT(191, "text"),
     DOUBLE_CURLY_CLOSE_INSIDE(192, "operator"),
-    UNKNOWN_CHAR(193, "character")
-    ;
+    UNKNOWN_CHAR(193, "character");
 
     public int id;
     public String category;
