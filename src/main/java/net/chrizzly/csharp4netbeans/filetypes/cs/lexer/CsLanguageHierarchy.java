@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.netbeans.api.lexer.Language;
 import org.netbeans.spi.lexer.LanguageHierarchy;
 import org.netbeans.spi.lexer.Lexer;
 import org.netbeans.spi.lexer.LexerRestartInfo;
@@ -16,7 +17,12 @@ import org.netbeans.spi.lexer.LexerRestartInfo;
 public class CsLanguageHierarchy extends LanguageHierarchy<CsTokenId> {
     private static final List<CsTokenId> tokens = new ArrayList<CsTokenId>();
     private static final Map<Integer, CsTokenId> idToToken = new HashMap<Integer, CsTokenId>();
+    private static final Language<CsTokenId> language = new CsLanguageHierarchy().language();
 
+    /**
+     * Initializes the list of tokens with IDs generated from the ANTLR token
+     * file.
+     */
     static {
         TokenType[] tokenTypes = TokenType.values();
 
@@ -27,6 +33,10 @@ public class CsLanguageHierarchy extends LanguageHierarchy<CsTokenId> {
         tokens.forEach(token -> {
             idToToken.put(token.ordinal(), token);
         });
+    }
+
+    public static Language<CsTokenId> getLanguage() {
+        return language;
     }
 
     static synchronized CsTokenId getToken(int id) {

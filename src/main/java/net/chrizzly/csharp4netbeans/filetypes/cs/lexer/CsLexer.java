@@ -10,17 +10,17 @@ import org.netbeans.spi.lexer.LexerRestartInfo;
  * @author Chrl
  */
 public class CsLexer implements Lexer<CsTokenId> {
-    private LexerRestartInfo<CsTokenId> info;
-
-    private CSharpLexer csharpLexer;
+    private final LexerRestartInfo<CsTokenId> info;
+    private final CSharpLexer csharpLexer;
+    private final AntlrCharStream stream;
 
     public CsLexer(LexerRestartInfo<CsTokenId> info) {
         this.info = info;
-
-        AntlrCharStream charStream = new AntlrCharStream(info.input(), "CSharpEditor");
-        csharpLexer = new CSharpLexer(charStream);
+        this.stream = new AntlrCharStream(info.input(), "CsEditor");
+        this.csharpLexer = new CSharpLexer(stream);
     }
 
+    @Override
     public org.netbeans.api.lexer.Token<CsTokenId> nextToken() {
         Token token = csharpLexer.nextToken();
 
@@ -33,9 +33,11 @@ public class CsLexer implements Lexer<CsTokenId> {
         return null;
     }
 
+    @Override
     public Object state() {
         return null;
     }
 
+    @Override
     public void release() {}
 }
