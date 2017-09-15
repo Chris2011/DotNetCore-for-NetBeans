@@ -196,7 +196,9 @@ public enum TokenType {
     CONDITIONAL_SYMBOL(189, "character"),
     DIRECTIVE_NEW_LINE(190, "character"),
     TEXT(191, "text"),
-    DOUBLE_CURLY_CLOSE_INSIDE(192, "operator");
+    DOUBLE_CURLY_CLOSE_INSIDE(192, "operator"),
+    UNKNOWN_CHAR(193, "character")
+    ;
 
     public int id;
     public String category;
