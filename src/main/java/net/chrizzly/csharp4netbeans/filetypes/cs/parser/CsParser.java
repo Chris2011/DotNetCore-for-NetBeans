@@ -6,9 +6,8 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.event.ChangeListener;
-import net.chrizzly.csharp4netbeans.filetypes.cs.CSharpLexer;
 import net.chrizzly.csharp4netbeans.filetypes.cs.CSharpParser;
-import org.antlr.v4.runtime.ANTLRErrorListener;
+import net.chrizzly.csharp4netbeans.filetypes.cs.FaultTolerantCSharpLexer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
@@ -59,7 +58,7 @@ public class CsParser extends Parser {
 
             ANTLRInputStream stream = new ANTLRInputStream(reader);
 //            final ANTLRErrorListener errorReporter = new CsErrorReporter();
-            Lexer lexer = new CSharpLexer(stream);
+            Lexer lexer = new FaultTolerantCSharpLexer(stream);
 //            lexer.addErrorListener(errorReporter);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             CSharpParser parser = new CSharpParser(tokens);
