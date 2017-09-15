@@ -234,6 +234,19 @@ OP_XOR_ASSIGNMENT:        '^=';
 OP_LEFT_SHIFT:            '<<';
 OP_LEFT_SHIFT_ASSIGNMENT: '<<=';
 
+UNTERMINATED_STRING
+    :   '"' ('\\' ["\\] | ~["\\\r\n])*
+    ;
+
+UNTERMINATED_DELIMITED_COMMENT
+    :   '/*' ('*' ~'/' | ~'*')*? EOF -> channel(COMMENTS_CHANNEL)
+    ;
+
+// This should be the LAST lexer rule in your grammar
+UNKNOWN_CHAR
+    :   .
+    ;
+
 // https://msdn.microsoft.com/en-us/library/dn961160.aspx
 mode INTERPOLATION_STRING;
 
