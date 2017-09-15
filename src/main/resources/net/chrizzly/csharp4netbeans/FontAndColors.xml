@@ -2,15 +2,16 @@
     "-//NetBeans//DTD Editor Fonts and Colors settings 1.1//EN"
     "https://netbeans.org/dtds/EditorFontsColors-1_1.dtd">
 <fontscolors>
-    <fontcolor name="character" default="char" />
+    <fontcolor name="character" default="string" />
     <fontcolor name="errors" default="error" />
-    <fontcolor name="identifier" default="identifier" foreColor="FFF8E4" />
-    <fontcolor name="keyword" default="keyword" foreColor="62B1FE" />
-    <fontcolor name="literal" default="keyword" foreColor="2ab27b" />
+    <!--<fontcolor name="identifier" default="identifier" foreColor="65b3c5" />-->
+    <fontcolor name="identifier" default="identifier" />
+    <fontcolor name="keyword" default="keyword" />
+    <fontcolor name="literal" default="keyword" />
     <fontcolor name="comment" default="comment" />
-    <fontcolor name="number" default="number" foreColor="2a78b2" />
+    <fontcolor name="number" default="number" foreColor="FF00FF" />
     <fontcolor name="operator" default="operator" />
-    <fontcolor name="string" default="string" foreColor="c1a665" />
+    <fontcolor name="string" default="string" />
     <fontcolor name="separator" default="separator" />
     <fontcolor name="whitespace" default="whitespace" />
     <fontcolor name="method-declaration" default="method">
