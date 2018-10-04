@@ -4,6 +4,11 @@ It is not possible to find a full featured grammar file for C#. So for this, I n
 
 So if anyone else has other ideas or can contribute, it will be great. Project is not dead but atm no work for this and to much effort plus I have other prioritie atm.
 
+See this tickets for more information:
+
+- https://github.com/dotnet/roslyn/issues/8379
+- https://github.com/dotnet/csharplang/issues/1902
+
 
 ---------------------------------------
 
