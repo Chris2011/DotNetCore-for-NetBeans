@@ -1,4 +1,4 @@
-<h1>.NET Core for netbeans (DotNetCore-for-NetBeans - Project: Goliath (WORK IN PROGRESS)</h1>
+<h1>.NET Core for NetBeans (Project: Goliath (WORK IN PROGRESS)</h1>
 <h1>Knowing Problems</h1>
 It is not possible to find a full featured grammar file for C#. So for this, I need to rethink of other implementations.
 Maybe OmniSharp could be an alternative or, what makes more sense is to use LSP for C#.
