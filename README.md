@@ -1,8 +1,8 @@
-<h1>CSharp-for-netbeans - Project: Goliath (WORK ON HOLD)</h1>
-<h1>Work on hold: why?</h1>
-It is not possible to find a full featured grammar file for C#. So for this, I need to rethink of other implementations. Maybe OmniSharp could be an alternative or, what makes more sense is to use LSP for C#.
-
-So if anyone else has other ideas or can contribute, it will be great. Project is not dead but atm no work for this and to much effort plus I have other prioritie atm.
+<h1>.NET Core for netbeans (DotNetCore-for-NetBeans - Project: Goliath (WORK IN PROGRESS)</h1>
+<h1>Knowing Problems</h1>
+It is not possible to find a full featured grammar file for C#. So for this, I need to rethink of other implementations.
+Maybe OmniSharp could be an alternative or, what makes more sense is to use LSP for C#.
+So if anyone else has other ideas or can contribute, it will be great.
 
 See this tickets for more information:
 
@@ -13,7 +13,7 @@ See this tickets for more information:
 ---------------------------------------
 
 
-Brings C# support to netbeans (Create projects, Open Projects, Syntax highlighting, etc.)
+Brings .NET Core with C# support to netbeans (Create projects, Open Projects, Syntax highlighting, etc.)
 
 <img src="screenshots/david-vs-goliath.jpg" alt="David vs Goliath" />
 

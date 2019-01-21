@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.chrizzly</groupId>
-    <artifactId>CSharp4Netbeans</artifactId>
-    <version>0.0.0.5-SNAPSHOT</version>
+    <artifactId>DotNetCore4Netbeans</artifactId>
+    <version>0.0.0.6-SNAPSHOT</version>
     <packaging>nbm</packaging>
     <build>
         <plugins>
@@ -42,7 +42,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <libDirectory>src/main/antlr4/net/chrizzly/csharp4netbeans/filetypes</libDirectory>
+                    <libDirectory>src/main/antlr4/net/chrizzly/dotnetcore4netbeans/filetypes</libDirectory>
                 </configuration>
             </plugin>
         </plugins>
@@ -235,5 +235,5 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <netbeans.platform.version>RELEASE82</netbeans.platform.version>
     </properties>
-    <name>C# for NetBeans</name>
+    <name>.NET Core for NetBeans</name>
 </project>
