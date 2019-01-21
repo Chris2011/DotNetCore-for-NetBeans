@@ -1,4 +1,4 @@
-package net.chrizzly.csharp4netbeans.subproject.nodes.ProjectFilesNode;
+package net.chrizzly.csharp4netbeans.project.csharp.nodes.ProjectFilesNode;
 
 import java.util.ArrayList;
 import java.util.List;

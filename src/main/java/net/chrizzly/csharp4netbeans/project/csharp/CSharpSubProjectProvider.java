@@ -1,4 +1,4 @@
-package net.chrizzly.csharp4netbeans.subproject;
+package net.chrizzly.csharp4netbeans.project.csharp;
 
 import java.io.IOException;
 import java.util.Collections;

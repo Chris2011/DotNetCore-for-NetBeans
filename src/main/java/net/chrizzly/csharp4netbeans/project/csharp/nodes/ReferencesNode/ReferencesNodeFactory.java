@@ -1,9 +1,9 @@
-package net.chrizzly.csharp4netbeans.subproject.nodes.ReferencesNode;
+package net.chrizzly.csharp4netbeans.project.csharp.nodes.ReferencesNode;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.event.ChangeListener;
-import net.chrizzly.csharp4netbeans.subproject.CSharpSubProject;
+import net.chrizzly.csharp4netbeans.project.csharp.CSharpSubProject;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ui.support.NodeFactory;
 import org.netbeans.spi.project.ui.support.NodeList;

@@ -1,4 +1,4 @@
-package net.chrizzly.csharp4netbeans.subproject.nodes.ReferencesNode;
+package net.chrizzly.csharp4netbeans.project.csharp.nodes.ReferencesNode;
 
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;

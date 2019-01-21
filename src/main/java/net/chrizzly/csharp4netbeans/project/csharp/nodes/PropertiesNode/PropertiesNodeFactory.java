@@ -1,4 +1,4 @@
-package net.chrizzly.csharp4netbeans.subproject.nodes.PropertiesNode;
+package net.chrizzly.csharp4netbeans.project.csharp.nodes.PropertiesNode;
 
 import java.io.IOException;
 import org.netbeans.api.project.Project;

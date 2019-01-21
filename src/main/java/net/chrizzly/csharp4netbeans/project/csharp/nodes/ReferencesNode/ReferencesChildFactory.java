@@ -1,4 +1,4 @@
-package net.chrizzly.csharp4netbeans.subproject.nodes.ReferencesNode;
+package net.chrizzly.csharp4netbeans.project.csharp.nodes.ReferencesNode;
 
 import java.io.File;
 import java.io.IOException;
