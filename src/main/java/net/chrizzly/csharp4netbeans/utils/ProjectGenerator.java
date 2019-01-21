@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import net.chrizzly.csharp4netbeans.beans.projecttypes.CSharpProjectType;
+import net.chrizzly.csharp4netbeans.project.csharp.CSharpProjectType;
 import org.openide.util.Exceptions;
 
 /**

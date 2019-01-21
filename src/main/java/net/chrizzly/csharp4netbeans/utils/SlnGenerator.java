@@ -3,7 +3,7 @@ package net.chrizzly.csharp4netbeans.utils;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import net.chrizzly.csharp4netbeans.beans.Sln;
+import net.chrizzly.csharp4netbeans.solution.Sln;
 import org.openide.util.Exceptions;
 
 /**

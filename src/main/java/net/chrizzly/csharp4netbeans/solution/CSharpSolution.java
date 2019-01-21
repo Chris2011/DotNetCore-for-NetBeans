@@ -1,6 +1,6 @@
 package net.chrizzly.csharp4netbeans.solution;
 
-import net.chrizzly.csharp4netbeans.subproject.CSharpSubProjectProvider;
+import net.chrizzly.csharp4netbeans.project.csharp.CSharpSubProjectProvider;
 import java.awt.Image;
 import java.beans.PropertyChangeListener;
 import javax.swing.Action;
