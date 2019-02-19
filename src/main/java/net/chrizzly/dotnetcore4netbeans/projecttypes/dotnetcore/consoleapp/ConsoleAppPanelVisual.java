@@ -1,31 +1,38 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package net.chrizzly.dotnetcore4netbeans.samples.classlibrary;
+package net.chrizzly.dotnetcore4netbeans.projecttypes.dotnetcore.consoleapp;
 
+import java.awt.Cursor;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
+import net.chrizzly.dotnetcore4netbeans.options.DotnetCliOptions;
+import net.chrizzly.dotnetcore4netbeans.ui.options.DotnetCliOptionsPanelController;
+import net.chrizzly.dotnetcore4netbeans.validator.DotnetCliOptionsValidator;
+import net.chrizzly.dotnetcore4netbeans.validator.ValidationResult;
+import org.netbeans.api.options.OptionsDisplayer;
 import org.netbeans.spi.project.ui.support.ProjectChooser;
 import org.openide.WizardDescriptor;
 import org.openide.WizardValidationException;
 import org.openide.filesystems.FileUtil;
+import org.openide.util.ChangeSupport;
 
-public class ClassLibraryPanelVisual extends JPanel implements DocumentListener {
+public final class ConsoleAppPanelVisual extends JPanel implements DocumentListener, PreferenceChangeListener {
+    private final List<String> solutionOptions;
+    private final ChangeSupport changeSupport = new ChangeSupport(this);
+    private final AtomicInteger listenerCount = new AtomicInteger();
+    private final ConsoleAppWizardPanel panel;
 
     public static final String PROP_PROJECT_NAME = "projectName";
-    private final List<String> solutionOptions;
 
-    private final ClassLibraryWizardPanel panel;
-
-    public ClassLibraryPanelVisual(ClassLibraryWizardPanel panel) {
+    public ConsoleAppPanelVisual(ConsoleAppWizardPanel panel) {
         initComponents();
         this.panel = panel;
         // Register listener on the textFields to make the automatic updates
@@ -36,13 +43,13 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
         solutionOptions = new ArrayList<>();
         solutionOptions.add("Create new solution");
         solutionOptions.add("Add to solution");
-        
+
         setChangeSolutionInstance(solutionOptions);
-        
+
         enableSolutionField();
 
         changeSolutionInstance.addItemListener((e) -> {
-            panel.isValid();
+            this.panel.isValid();
             enableSolutionField();
         });
     }
@@ -76,17 +83,21 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
         browseButton = new javax.swing.JButton();
         createdFolderLabel = new javax.swing.JLabel();
         createdFolderTextField = new javax.swing.JTextField();
-        projectLocationLabel1 = new javax.swing.JLabel();
         changeSolutionInstance = new javax.swing.JComboBox();
+        languageLabel = new javax.swing.JLabel();
+        languageSelector = new javax.swing.JComboBox<>();
+        frameworkLabel = new javax.swing.JLabel();
+        frameworkVersionLabel = new javax.swing.JLabel();
+        optionsLabel = new javax.swing.JLabel();
 
         projectNameLabel.setLabelFor(projectNameTextField);
-        org.openide.awt.Mnemonics.setLocalizedText(projectNameLabel, org.openide.util.NbBundle.getMessage(ClassLibraryPanelVisual.class, "ClassLibraryPanelVisual.projectNameLabel.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(projectNameLabel, org.openide.util.NbBundle.getMessage(ConsoleAppPanelVisual.class, "ConsoleAppPanelVisual.projectNameLabel.text")); // NOI18N
 
         projectLocationLabel.setLabelFor(projectLocationTextField);
-        org.openide.awt.Mnemonics.setLocalizedText(projectLocationLabel, org.openide.util.NbBundle.getMessage(ClassLibraryPanelVisual.class, "ClassLibraryPanelVisual.projectLocationLabel.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(projectLocationLabel, org.openide.util.NbBundle.getMessage(ConsoleAppPanelVisual.class, "ConsoleAppPanelVisual.projectLocationLabel.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(browseButton, org.openide.util.NbBundle.getMessage(ClassLibraryPanelVisual.class, "ClassLibraryPanelVisual.browseButton.text")); // NOI18N
-        browseButton.setActionCommand(org.openide.util.NbBundle.getMessage(ClassLibraryPanelVisual.class, "ClassLibraryPanelVisual.browseButton.actionCommand")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(browseButton, org.openide.util.NbBundle.getMessage(ConsoleAppPanelVisual.class, "ConsoleAppPanelVisual.browseButton.text")); // NOI18N
+        browseButton.setActionCommand(org.openide.util.NbBundle.getMessage(ConsoleAppPanelVisual.class, "ConsoleAppPanelVisual.browseButton.actionCommand")); // NOI18N
         browseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 browseButtonActionPerformed(evt);
@@ -94,12 +105,33 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
         });
 
         createdFolderLabel.setLabelFor(createdFolderTextField);
-        org.openide.awt.Mnemonics.setLocalizedText(createdFolderLabel, org.openide.util.NbBundle.getMessage(ClassLibraryPanelVisual.class, "ClassLibraryPanelVisual.createdFolderLabel.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(createdFolderLabel, org.openide.util.NbBundle.getMessage(ConsoleAppPanelVisual.class, "ConsoleAppPanelVisual.createdFolderLabel.text")); // NOI18N
 
-        projectLocationLabel1.setLabelFor(projectLocationTextField);
-        org.openide.awt.Mnemonics.setLocalizedText(projectLocationLabel1, org.openide.util.NbBundle.getMessage(ClassLibraryPanelVisual.class, "ClassLibraryPanelVisual.projectLocationLabel1.text")); // NOI18N
+        languageLabel.setLabelFor(createdFolderTextField);
+        org.openide.awt.Mnemonics.setLocalizedText(languageLabel, org.openide.util.NbBundle.getMessage(ConsoleAppPanelVisual.class, "ConsoleAppPanelVisual.languageLabel.text")); // NOI18N
 
-        changeSolutionInstance.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        languageSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C#" }));
+        languageSelector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                languageSelectorActionPerformed(evt);
+            }
+        });
+
+        frameworkLabel.setLabelFor(createdFolderTextField);
+        org.openide.awt.Mnemonics.setLocalizedText(frameworkLabel, org.openide.util.NbBundle.getMessage(ConsoleAppPanelVisual.class, "ConsoleAppPanelVisual.frameworkLabel.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(frameworkVersionLabel, org.openide.util.NbBundle.getMessage(ConsoleAppPanelVisual.class, "ConsoleAppPanelVisual.frameworkVersionLabel.text")); // NOI18N
+        frameworkVersionLabel.setMinimumSize(new java.awt.Dimension(0, 0));
+
+        org.openide.awt.Mnemonics.setLocalizedText(optionsLabel, org.openide.util.NbBundle.getMessage(ConsoleAppPanelVisual.class, "ConsoleAppPanelVisual.optionsLabel.text")); // NOI18N
+        optionsLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                optionsLabelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                optionsLabelMouseEntered(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -111,9 +143,16 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
                     .addComponent(projectNameLabel)
                     .addComponent(projectLocationLabel)
                     .addComponent(createdFolderLabel)
-                    .addComponent(projectLocationLabel1))
+                    .addComponent(languageLabel)
+                    .addComponent(frameworkLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(languageSelector, 0, 86, Short.MAX_VALUE)
+                            .addComponent(frameworkVersionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(optionsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(projectNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
                     .addComponent(projectLocationTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
                     .addComponent(createdFolderTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
@@ -135,14 +174,22 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
                     .addComponent(projectLocationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(browseButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(projectLocationLabel1)
-                    .addComponent(changeSolutionInstance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(changeSolutionInstance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(createdFolderLabel)
                     .addComponent(createdFolderTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(298, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(optionsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(languageSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(languageLabel)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(frameworkLabel)
+                    .addComponent(frameworkVersionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(238, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -164,18 +211,34 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
                 File projectDir = chooser.getSelectedFile();
                 projectLocationTextField.setText(FileUtil.normalizeFile(projectDir).getAbsolutePath());
             }
-            panel.fireChangeEvent();
+            this.panel.fireChangeEvent();
         }
 
     }//GEN-LAST:event_browseButtonActionPerformed
+
+    private void languageSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_languageSelectorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_languageSelectorActionPerformed
+
+    private void optionsLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_optionsLabelMouseClicked
+        OptionsDisplayer.getDefault().open(DotnetCliOptionsPanelController.OPTIONS_PATH);
+    }//GEN-LAST:event_optionsLabelMouseClicked
+
+    private void optionsLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_optionsLabelMouseEntered
+        evt.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_optionsLabelMouseEntered
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton browseButton;
     private javax.swing.JComboBox changeSolutionInstance;
     private javax.swing.JLabel createdFolderLabel;
     private javax.swing.JTextField createdFolderTextField;
+    private javax.swing.JLabel frameworkLabel;
+    private javax.swing.JLabel frameworkVersionLabel;
+    private javax.swing.JLabel languageLabel;
+    private javax.swing.JComboBox<String> languageSelector;
+    private javax.swing.JLabel optionsLabel;
     private javax.swing.JLabel projectLocationLabel;
-    private javax.swing.JLabel projectLocationLabel1;
     private javax.swing.JTextField projectLocationTextField;
     private javax.swing.JLabel projectNameLabel;
     private javax.swing.JTextField projectNameTextField;
@@ -189,17 +252,33 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
     }
 
     boolean valid(WizardDescriptor wizardDescriptor) {
+        // HINT: Validate, whether the .NET Core CLI was selected inside of the options or not.
+        ValidationResult result = new DotnetCliOptionsValidator()
+                .validateDotnetCli()
+                .getResult();
+
+        if (result.hasErrors()) {
+            wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, result.getFirstErrorMessage());
+
+            return false;
+        }
+
+        if (result.hasWarnings()) {
+            wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, result.getFirstWarningMessage());
+
+            return false;
+        }
 
         if (projectNameTextField.getText().length() == 0) {
             // TODO if using org.openide.dialogs >= 7.8, can use WizardDescriptor.PROP_ERROR_MESSAGE:
-            wizardDescriptor.putProperty("WizardPanel_errorMessage",
+            wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE,
                     "Project Name is not a valid folder name.");
             return false; // Display name not specified
         }
         File f = FileUtil.normalizeFile(new File(projectLocationTextField.getText()).getAbsoluteFile());
         if (!f.isDirectory()) {
             String message = "Project Folder is not a valid path.";
-            wizardDescriptor.putProperty("WizardPanel_errorMessage", message);
+            wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, message);
             return false;
         }
         final File destFolder = FileUtil.normalizeFile(new File(createdFolderTextField.getText()).getAbsoluteFile());
@@ -209,39 +288,39 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
             projLoc = projLoc.getParentFile();
         }
         if (projLoc == null || !projLoc.canWrite()) {
-            wizardDescriptor.putProperty("WizardPanel_errorMessage",
+            wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE,
                     "Project Folder cannot be created.");
             return false;
         }
 
         if (FileUtil.toFileObject(projLoc) == null) {
             String message = "Project Folder is not a valid path.";
-            wizardDescriptor.putProperty("WizardPanel_errorMessage", message);
+            wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, message);
             return false;
         }
 
         File[] kids = destFolder.listFiles();
-        
-        if (changeSolutionInstance.getSelectedIndex() == 0 &&
-            (destFolder.exists() && kids != null && kids.length > 0)) {
-                // Solution Folder exists and is not empty
-                wizardDescriptor.putProperty("WizardPanel_errorMessage",
-                        "Solution Folder already exists and is not empty.");
-                return false;
+
+        if (changeSolutionInstance.getSelectedIndex() == 0
+                && (destFolder.exists() && kids != null && kids.length > 0)) {
+            // Solution Folder exists and is not empty
+            wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE,
+                    "Solution Folder already exists and is not empty.");
+            return false;
         } else {
-            if(destFolder.exists() && kids != null && kids.length > 0) {
+            if (destFolder.exists() && kids != null && kids.length > 0) {
                 for (File project : kids) {
                     if (project.getName().equals(projectNameTextField.getText())) {
                         // Project Folder exists and is not empty
-                        wizardDescriptor.putProperty("WizardPanel_errorMessage",
+                        wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE,
                                 "Project Folder already exists and is not empty.");
                         return false;
                     }
                 }
             }
         }
-        
-        wizardDescriptor.putProperty("WizardPanel_errorMessage", "");
+
+        wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, "");
         return true;
     }
 
@@ -265,7 +344,7 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
 
         String projectName = (String) settings.getProperty("name");
         if (projectName == null) {
-            projectName = "ClassLibrary";
+            projectName = "ConsoleApp";
         }
         this.projectNameTextField.setText(projectName);
         this.projectNameTextField.selectAll();
@@ -276,6 +355,7 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
     }
 
     // Implementation of DocumentListener --------------------------------------
+    @Override
     public void changedUpdate(DocumentEvent e) {
         updateTexts(e);
         if (this.projectNameTextField.getDocument() == e.getDocument()) {
@@ -283,6 +363,7 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
         }
     }
 
+    @Override
     public void insertUpdate(DocumentEvent e) {
         updateTexts(e);
         if (this.projectNameTextField.getDocument() == e.getDocument()) {
@@ -290,6 +371,7 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
         }
     }
 
+    @Override
     public void removeUpdate(DocumentEvent e) {
         updateTexts(e);
         if (this.projectNameTextField.getDocument() == e.getDocument()) {
@@ -297,11 +379,30 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
         }
     }
 
+    public void addChangeListener(ChangeListener listener) {
+        if (listenerCount.getAndIncrement() == 0) {
+            DotnetCliOptions.getInstance().addPreferenceChangeListener(this);
+        }
+
+        changeSupport.addChangeListener(listener);
+    }
+
+    public void removeChangeListener(ChangeListener listener) {
+        if (listenerCount.decrementAndGet() == 0) {
+            DotnetCliOptions.getInstance().removePreferenceChangeListener(this);
+        }
+
+        changeSupport.removeChangeListener(listener);
+    }
+
+    public void fireChange() {
+        changeSupport.fireChange();
+    }
+
     /**
      * Handles changes in the Project name and project directory,
      */
     private void updateTexts(DocumentEvent e) {
-
         Document doc = e.getDocument();
 
         if (doc == projectNameTextField.getDocument() || doc == projectLocationTextField.getDocument()) {
@@ -310,13 +411,17 @@ public class ClassLibraryPanelVisual extends JPanel implements DocumentListener 
             String projectName = projectNameTextField.getText();
             String projectFolder = projectLocationTextField.getText();
 
-            //if (projectFolder.trim().length() == 0 || projectFolder.equals(oldName)) {
             if (createdFolderTextField.isEnabled()) {
                 createdFolderTextField.setText(projectFolder + File.separatorChar + projectName);
             }
-            //}
         }
+
+        panel.isValid();
         panel.fireChangeEvent(); // Notify that the panel changed
     }
 
+    @Override
+    public void preferenceChange(PreferenceChangeEvent evt) {
+        fireChange();
+    }
 }

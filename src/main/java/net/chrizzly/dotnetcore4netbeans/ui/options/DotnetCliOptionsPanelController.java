@@ -18,18 +18,19 @@ import org.openide.util.NbBundle;
 })
 @OptionsPanelController.TopLevelRegistration(
     categoryName = ".NET Core",
-    iconBase = "net/chrizzly/dotnetcore4netbeans/microsoft-net-core.gif",
+    id="DotNetCore",
+    position = 700,
+    iconBase = "net/chrizzly/dotnetcore4netbeans/dotnet-core-32.png",
     keywords = "AdvancedOption_Keywords_DotnetCli", // TODO: Maybe needed for the search
     keywordsCategory = ".NET Core" // TODO: Maybe needed for the search and keymap
 )
 public final class DotnetCliOptionsPanelController extends OptionsPanelController implements ChangeListener {
-    public static final String OPTIONS_PATH = ".NET Core"; // NOI18N
-    
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-
     private DotnetCliOptionsPanel dotnetCliOptionsPanel;
     private volatile boolean changed = false;
     private boolean firstOpening = true;
+
+    public static final String OPTIONS_PATH = "DotNetCore"; // NOI18N
 
     @Override
     public void update() {

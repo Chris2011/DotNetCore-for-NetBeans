@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.chrizzly.dotnetcore4netbeans.samples.classlibrary;
+package net.chrizzly.dotnetcore4netbeans.projecttypes.dotnetstandard.classlib;
 
 import java.awt.Component;
 import java.util.HashSet;

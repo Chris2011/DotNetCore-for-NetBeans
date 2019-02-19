@@ -76,7 +76,7 @@
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-util</artifactId>
-            <version>${netbeans.platform.version}</version>
+            <version>RELEASE82</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -228,6 +228,11 @@
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-io</artifactId>
+            <version>RELEASE82</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-netbeans-api-templates</artifactId>
             <version>RELEASE82</version>
         </dependency>
     </dependencies>
