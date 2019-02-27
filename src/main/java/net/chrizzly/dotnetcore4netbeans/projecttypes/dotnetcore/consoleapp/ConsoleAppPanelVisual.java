@@ -273,29 +273,35 @@ public final class ConsoleAppPanelVisual extends JPanel implements DocumentListe
             // TODO if using org.openide.dialogs >= 7.8, can use WizardDescriptor.PROP_ERROR_MESSAGE:
             wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE,
                     "Project Name is not a valid folder name.");
+
             return false; // Display name not specified
         }
+
         File f = FileUtil.normalizeFile(new File(projectLocationTextField.getText()).getAbsoluteFile());
         if (!f.isDirectory()) {
             String message = "Project Folder is not a valid path.";
             wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, message);
             return false;
         }
+
         final File destFolder = FileUtil.normalizeFile(new File(createdFolderTextField.getText()).getAbsoluteFile());
 
         File projLoc = destFolder;
         while (projLoc != null && !projLoc.exists()) {
             projLoc = projLoc.getParentFile();
         }
+
         if (projLoc == null || !projLoc.canWrite()) {
             wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE,
                     "Project Folder cannot be created.");
+
             return false;
         }
 
         if (FileUtil.toFileObject(projLoc) == null) {
             String message = "Project Folder is not a valid path.";
             wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, message);
+
             return false;
         }
 
@@ -306,6 +312,7 @@ public final class ConsoleAppPanelVisual extends JPanel implements DocumentListe
             // Solution Folder exists and is not empty
             wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE,
                     "Solution Folder already exists and is not empty.");
+
             return false;
         } else {
             if (destFolder.exists() && kids != null && kids.length > 0) {
@@ -314,6 +321,7 @@ public final class ConsoleAppPanelVisual extends JPanel implements DocumentListe
                         // Project Folder exists and is not empty
                         wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE,
                                 "Project Folder already exists and is not empty.");
+
                         return false;
                     }
                 }
@@ -321,15 +329,18 @@ public final class ConsoleAppPanelVisual extends JPanel implements DocumentListe
         }
 
         wizardDescriptor.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, "");
+
         return true;
     }
 
     void store(WizardDescriptor d) {
-        String name = projectNameTextField.getText().trim();
-        String folder = createdFolderTextField.getText().trim();
+        String projectName = projectNameTextField.getText().trim();
+        String parentLocation = projectLocationTextField.getText().trim();
+        String projectDir = createdFolderTextField.getText().trim();
 
-        d.putProperty("projdir", new File(folder));
-        d.putProperty("name", name);
+        d.putProperty("projectName", projectName);
+        d.putProperty("parentLocation", new File(parentLocation));
+        d.putProperty("projectDir", new File(projectDir));
         d.putProperty("newSln", changeSolutionInstance.getSelectedIndex());
     }
 

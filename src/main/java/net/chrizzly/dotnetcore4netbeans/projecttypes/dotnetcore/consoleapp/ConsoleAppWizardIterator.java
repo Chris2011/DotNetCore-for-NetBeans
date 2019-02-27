@@ -3,46 +3,46 @@ package net.chrizzly.dotnetcore4netbeans.projecttypes.dotnetcore.consoleapp;
 import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.MessageFormat;
-import java.util.Enumeration;
-import java.util.LinkedHashSet;
-import java.util.Map;
+import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeListener;
-import net.chrizzly.dotnetcore4netbeans.project.csharp.CSharpProjectType;
-import net.chrizzly.dotnetcore4netbeans.solution.Sln;
-import net.chrizzly.dotnetcore4netbeans.utils.ProjectGenerator;
-import net.chrizzly.dotnetcore4netbeans.utils.SlnGenerator;
-import org.netbeans.api.project.ProjectManager;
+import net.chrizzly.dotnetcore4netbeans.executables.CliExecuter;
+import org.netbeans.api.extexecution.ExecutionDescriptor;
+import org.netbeans.api.extexecution.ExecutionService;
+import org.netbeans.api.progress.ProgressHandle;
+import org.netbeans.api.project.FileOwnerQuery;
+import org.netbeans.api.project.Project;
+import org.netbeans.api.project.ui.OpenProjects;
 import org.netbeans.api.templates.TemplateRegistration;
 import org.netbeans.api.templates.TemplateRegistrations;
-import org.netbeans.spi.project.ui.support.ProjectChooser;
-import org.netbeans.spi.project.ui.templates.support.Templates;
 import org.openide.WizardDescriptor;
+import org.openide.awt.NotificationDisplayer;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.util.NbBundle.Messages;
+import org.openide.util.RequestProcessor;
 
 // TODO define position attribute
 @TemplateRegistrations({
     @TemplateRegistration(folder = "Project/.NET/.NET Core", displayName = "#ConsoleApp_displayName", description = "ConsoleAppDescription.html", iconBase = "net/chrizzly/dotnetcore4netbeans/projecttypes/dotnetcore/consoleapp/console-16.png"),
-    @TemplateRegistration(folder = "Project/.NET", displayName = "#ConsoleApp_displayName", description = "ConsoleAppDescription.html", iconBase = "net/chrizzly/dotnetcore4netbeans/projecttypes/dotnetcore/consoleapp/console-16.png"),
-})
+    @TemplateRegistration(folder = "Project/.NET", displayName = "#ConsoleApp_displayName", description = "ConsoleAppDescription.html", iconBase = "net/chrizzly/dotnetcore4netbeans/projecttypes/dotnetcore/consoleapp/console-16.png"),})
 @Messages("ConsoleApp_displayName=Console App (.NET Core)")
-public class ConsoleAppWizardIterator implements WizardDescriptor./*Progress*/InstantiatingIterator {
-
+public class ConsoleAppWizardIterator implements WizardDescriptor.InstantiatingIterator {
     private int index;
     private WizardDescriptor.Panel[] panels;
     private WizardDescriptor wiz;
-    private static File _slnFile;
+//    private static File _slnFile;
 
-    public ConsoleAppWizardIterator() {
-    }
+//    public ConsoleAppWizardIterator() {
+//    }
 
     public static ConsoleAppWizardIterator createIterator() {
         return new ConsoleAppWizardIterator();
@@ -60,34 +60,41 @@ public class ConsoleAppWizardIterator implements WizardDescriptor./*Progress*/In
     }
 
     @Override
-    public Set/*<FileObject>*/ instantiate(/*ProgressHandle handle*/) throws IOException {
-        Set<FileObject> resultSet = new LinkedHashSet<>();
-        Map<String, Object> properties = wiz.getProperties();
-        
-        File dirF = FileUtil.normalizeFile((File) wiz.getProperty("projdir"));
-        dirF.mkdirs();
+    public Set<FileObject> instantiate() throws IOException {
+        Runnable runnable = createDotNetCliApp();
 
-        FileObject template = Templates.getTemplate(wiz);
-        FileObject slnDir = FileUtil.toFileObject(dirF);
-        createProjectFiles(template.getInputStream(), slnDir, wiz);
+        // execute async in separate thread
+        RequestProcessor.getDefault().post(runnable);
 
-        // Always open top dir as a project:
-        resultSet.add(slnDir);
-        // Look for nested projects to open as well:
-        Enumeration<? extends FileObject> e = slnDir.getFolders(true);
-        while (e.hasMoreElements()) {
-            FileObject subfolder = e.nextElement();
-            if (ProjectManager.getDefault().isProject(subfolder)) {
-                resultSet.add(subfolder);
-            }
-        }
+        return Collections.emptySet();
 
-        File parent = dirF.getParentFile();
-        if (parent != null && parent.exists()) {
-            ProjectChooser.setProjectsFolder(parent);
-        }
-
-        return resultSet;
+//        Set<FileObject> resultSet = new LinkedHashSet<>();
+//        Map<String, Object> properties = wiz.getProperties();
+//        
+//        File dirF = FileUtil.normalizeFile((File) wiz.getProperty("projdir"));
+//        dirF.mkdirs();
+//
+//        FileObject template = Templates.getTemplate(wiz);
+//        FileObject slnDir = FileUtil.toFileObject(dirF);
+//        createProjectFiles(template.getInputStream(), slnDir, wiz);
+//
+//        // Always open top dir as a project:
+//        resultSet.add(slnDir);
+//        // Look for nested projects to open as well:
+//        Enumeration<? extends FileObject> e = slnDir.getFolders(true);
+//        while (e.hasMoreElements()) {
+//            FileObject subfolder = e.nextElement();
+//            if (ProjectManager.getDefault().isProject(subfolder)) {
+//                resultSet.add(subfolder);
+//            }
+//        }
+//
+//        File parent = dirF.getParentFile();
+//        if (parent != null && parent.exists()) {
+//            ProjectChooser.setProjectsFolder(parent);
+//        }
+//
+//        return resultSet;
     }
 
     @Override
@@ -170,42 +177,130 @@ public class ConsoleAppWizardIterator implements WizardDescriptor./*Progress*/In
     public final void removeChangeListener(ChangeListener l) {
     }
 
-    private static void createProjectFiles(InputStream source, FileObject projectRoot, WizardDescriptor wiz) throws IOException {
-        try {
-            Map<String, Object> properties = wiz.getProperties();
-            createSln(projectRoot);
-            createProj(wiz, projectRoot);
-        } finally {
-            source.close();
-        }
-    }
+//    private static void createProjectFiles(InputStream source, FileObject projectRoot, WizardDescriptor wiz) throws IOException {
+//        try {
+//            // TODO: Call the CLI with the project root and the name.
+//            Map<String, Object> properties = wiz.getProperties();
+////            createSln(projectRoot);
+////            createProj(wiz, projectRoot);
+//        } finally {
+//            source.close();
+//        }
+//    }
 
-    private static void createSln(FileObject projectRoot) throws IOException {
-        // Create Sln folder and file.
-        Sln sln = new Sln();
+//    private static void createSln(FileObject projectRoot) throws IOException {
+    // Create Sln folder and file.
+//        Sln sln = new Sln();
+//
+//        sln.setSlnName(projectRoot.getName());
+//        sln.setSlnPath(projectRoot.getPath());
+//        
+//        SlnGenerator slnGenerator = new SlnGenerator(sln);
+//        slnGenerator.createSlnFile();
+//        
+//        _slnFile = sln.getSlnFile();
+//    }
+//    private static void createProj(WizardDescriptor wiz, FileObject projectRoot) {
+    // Create proj folder and file.
+//        CSharpProjectType proj = new CSharpProjectType();
+//
+//        proj.setProjName(wiz.getProperty("name").toString());
+//        proj.setSlnPath(projectRoot.getPath());
+//
+//        ProjectGenerator projGenerator = new ProjectGenerator(proj);
+//        projGenerator.createProjFolder();
+//        try {
+//            projGenerator.addProjectSettingsToSln(_slnFile);
+//        } catch (IOException ex) {
+//            Exceptions.printStackTrace(ex);
+//        }
+//    }
 
-        sln.setSlnName(projectRoot.getName());
-        sln.setSlnPath(projectRoot.getPath());
-        
-        SlnGenerator slnGenerator = new SlnGenerator(sln);
-        slnGenerator.createSlnFile();
-        
-        _slnFile = sln.getSlnFile();
-    }
+    private Runnable createDotNetCliApp() {
+        final File parentLocation = FileUtil.normalizeFile((File) wiz.getProperty("parentLocation"));
+        final File projectDir = FileUtil.normalizeFile((File) wiz.getProperty("projectDir"));
+        final String projectName = "" + wiz.getProperty("projectName");
 
-    private static void createProj(WizardDescriptor wiz, FileObject projectRoot) {
-        // Create proj folder and file.
-        CSharpProjectType proj = new CSharpProjectType();
+        return () -> {
+            final ProgressHandle ph = ProgressHandle.createHandle("Creating project via .NET Core CLI...");
 
-        proj.setProjName(wiz.getProperty("name").toString());
-        proj.setSlnPath(projectRoot.getPath());
+            try {
+                ph.start();
 
-        ProjectGenerator projGenerator = new ProjectGenerator(proj);
-        projGenerator.createProjFolder();
-        try {
-            projGenerator.addProjectSettingsToSln(_slnFile);
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
+                File normalizedFilePath = FileUtil.normalizeFile(parentLocation);
+
+                ExecutionDescriptor descriptor = new ExecutionDescriptor()
+                        .controllable(true)
+                        .frontWindow(true)
+                        // disable rerun
+                        .rerunCondition(new ExecutionDescriptor.RerunCondition() {
+                            @Override
+                            public void addChangeListener(ChangeListener cl) {
+                            }
+
+                            @Override
+                            public void removeChangeListener(ChangeListener cl) {
+                            }
+
+                            @Override
+                            public boolean isRerunPossible() {
+                                return false;
+                            }
+                        })
+                        // we handle the progress ourself
+                        .showProgress(false);
+
+                // integrate as subtask in the same progress bar
+                ph.progress(String.format("Executing 'dotnet new %s'", projectName));
+
+//                ExecutionService exeService = ExecutionService.newService(new CliExecuter(parentLocation, projectName, "C#", "console"), descriptor, String.format("Executing 'dotnet new %s'", projectName));
+                ExecutionService exeService = ExecutionService.newService(CliExecuter.createProject(parentLocation, "new", "console", "C#", projectName), descriptor, String.format("Executing 'dotnet new %s'", projectName));
+                Integer exitCode = null;
+
+                // this will run the process
+                Future<Integer> processFuture = exeService.run();
+
+                try {
+                    // wait for end of execution of shell command
+                    exitCode = processFuture.get();
+                } catch (InterruptedException | ExecutionException ex) {
+                    NotificationDisplayer.getDefault().notify(".NET Core CLI execution was aborted", NotificationDisplayer.Priority.HIGH.getIcon(), String.format("The execution of 'dotnet new %s' was aborted. Please see the IDE Log.", projectName), null);
+
+                    return;
+                } catch (CancellationException ex) {
+                    NotificationDisplayer.getDefault().notify(".NET Core CLI execution was canceled", NotificationDisplayer.Priority.HIGH.getIcon(), String.format("The execution of 'dotnet new %s' was canceled by the user.", projectName), null);
+
+                    return;
+                }
+
+                if (exitCode != null && exitCode != 0) {
+                    NotificationDisplayer.getDefault().notify(".NET Core CLI execution was aborted", NotificationDisplayer.Priority.HIGH.getIcon(), String.format("The execution of 'dotnet new %s' was aborted. Please see the IDE Log.", projectName), null);
+
+                    return;
+                }
+
+                if (exitCode != null && exitCode == 0) {
+                    NotificationDisplayer.getDefault().notify(String.format("Project %s was successfully created", projectName), NotificationDisplayer.Priority.HIGH.getIcon(), String.format("The execution of 'dotnet new %s' was canceled by the user.", projectName), null);
+
+                    ph.progress("Opening project");
+
+                    FileObject dir = FileUtil.toFileObject(projectDir);
+                    dir.refresh();
+                    // TODO show error and abort if generation failed (f.e. missing package.json whatever)
+
+                    Project p = FileOwnerQuery.getOwner(dir);
+
+                    if (null != p) {
+                        OpenProjects.getDefault().open(new Project[]{p}, true, true);
+                    } else {
+                        // TODO show error and abort if no project found (can happen when JS plugins are disabled)
+                    }
+                }
+            } catch (Exception ex) {
+                Exceptions.printStackTrace(ex);
+            } finally {
+                ph.finish();
+            }
+        };
     }
 }

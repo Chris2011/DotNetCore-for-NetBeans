@@ -25,7 +25,6 @@ import org.openide.util.Utilities;
 
 
 public class DotnetCliExecutable {
-
     public static final String DOTNET_CLI_NAME;
 
     protected final Project project;
@@ -67,6 +66,7 @@ public class DotnetCliExecutable {
         if (Utilities.isMac()) {
             return new DotnetCliExecutable.MacDotnetCliExecutable(dotnetCli, project);
         }
+
         return new DotnetCliExecutable(dotnetCli, project);
     }
 
@@ -171,7 +171,5 @@ public class DotnetCliExecutable {
             sb.append("\""); // NOI18N
             return Collections.singletonList(sb.toString());
         }
-
     }
-
 }
