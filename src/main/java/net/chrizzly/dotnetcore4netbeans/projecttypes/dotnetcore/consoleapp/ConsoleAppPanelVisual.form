@@ -19,58 +19,71 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="projectNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="projectLocationLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="createdFolderLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="languageLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="frameworkLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="languageSelector" pref="86" max="32767" attributes="0"/>
-                          <Component id="frameworkVersionLabel" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="projectNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="solutionDirectoryLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="solutionNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="languageLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="frameworkLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="optionsLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="languageSelector" pref="86" max="32767" attributes="0"/>
+                                          <Component id="frameworkVersionLabel" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="optionsLabel" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="solutionDirectoryField" alignment="1" pref="290" max="32767" attributes="0"/>
+                                  <Component id="changeSolutionInstance" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                              <Component id="browseButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="projectNameField" max="32767" attributes="0"/>
+                          <Component id="solutionNameField" alignment="0" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
-                  <Component id="projectNameTextField" alignment="1" pref="258" max="32767" attributes="0"/>
-                  <Component id="projectLocationTextField" alignment="1" pref="258" max="32767" attributes="0"/>
-                  <Component id="createdFolderTextField" alignment="1" pref="258" max="32767" attributes="0"/>
-                  <Component id="changeSolutionInstance" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="outputLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="jScrollPane1" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="browseButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="solutionNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="solutionNameField" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="projectNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="projectNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="projectNameField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="projectLocationLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="projectLocationTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="solutionDirectoryLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="solutionDirectoryField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="browseButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="changeSolutionInstance" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="createdFolderLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="createdFolderTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="optionsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="languageSelector" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="languageLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -80,7 +93,11 @@
                   <Component id="frameworkLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="frameworkVersionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="238" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="outputLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="196" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -89,7 +106,7 @@
     <Component class="javax.swing.JLabel" name="projectNameLabel">
       <Properties>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="projectNameTextField"/>
+          <ComponentRef name="projectNameField"/>
         </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="net/chrizzly/dotnetcore4netbeans/projecttypes/dotnetstandard/classlib/Bundle.properties" key="ConsoleAppPanelVisual.projectNameLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
@@ -99,22 +116,22 @@
         <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JTextField" name="projectNameTextField">
+    <Component class="javax.swing.JTextField" name="projectNameField">
     </Component>
-    <Component class="javax.swing.JLabel" name="projectLocationLabel">
+    <Component class="javax.swing.JLabel" name="solutionDirectoryLabel">
       <Properties>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="projectLocationTextField"/>
+          <ComponentRef name="solutionDirectoryField"/>
         </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="net/chrizzly/dotnetcore4netbeans/projecttypes/dotnetstandard/classlib/Bundle.properties" key="ConsoleAppPanelVisual.projectLocationLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="net/chrizzly/dotnetcore4netbeans/projecttypes/dotnetstandard/classlib/Bundle.properties" key="ConsoleAppPanelVisual.solutionDirectoryLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <AuxValues>
         <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JTextField" name="projectLocationTextField">
+    <Component class="javax.swing.JTextField" name="solutionDirectoryField">
     </Component>
     <Component class="javax.swing.JButton" name="browseButton">
       <Properties>
@@ -129,17 +146,17 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browseButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="createdFolderLabel">
+    <Component class="javax.swing.JLabel" name="solutionNameLabel">
       <Properties>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="createdFolderTextField"/>
+          <ComponentRef name="solutionNameField"/>
         </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="net/chrizzly/dotnetcore4netbeans/projecttypes/dotnetstandard/classlib/Bundle.properties" key="ConsoleAppPanelVisual.createdFolderLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="net/chrizzly/dotnetcore4netbeans/projecttypes/dotnetstandard/classlib/Bundle.properties" key="ConsoleAppPanelVisual.solutionNameLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="createdFolderTextField">
+    <Component class="javax.swing.JTextField" name="solutionNameField">
     </Component>
     <Component class="javax.swing.JComboBox" name="changeSolutionInstance">
       <Properties>
@@ -151,7 +168,7 @@
     <Component class="javax.swing.JLabel" name="languageLabel">
       <Properties>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="createdFolderTextField"/>
+          <ComponentRef name="solutionNameField"/>
         </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="net/chrizzly/dotnetcore4netbeans/projecttypes/dotnetcore/consoleapp/Bundle.properties" key="ConsoleAppPanelVisual.languageLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
@@ -176,7 +193,7 @@
     <Component class="javax.swing.JLabel" name="frameworkLabel">
       <Properties>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="createdFolderTextField"/>
+          <ComponentRef name="solutionNameField"/>
         </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="net/chrizzly/dotnetcore4netbeans/projecttypes/dotnetcore/consoleapp/Bundle.properties" key="ConsoleAppPanelVisual.frameworkLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
@@ -203,6 +220,30 @@
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="optionsLabelMouseClicked"/>
         <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="optionsLabelMouseEntered"/>
       </Events>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextPane" name="outputField">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="contentType" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="net/chrizzly/dotnetcore4netbeans/projecttypes/dotnetcore/consoleapp/Bundle.properties" key="ConsoleAppPanelVisual.jTextPane1.contentType" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JLabel" name="outputLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="net/chrizzly/dotnetcore4netbeans/projecttypes/dotnetcore/consoleapp/Bundle.properties" key="ConsoleAppPanelVisual.outputLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

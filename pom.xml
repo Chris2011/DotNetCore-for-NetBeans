@@ -26,9 +26,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
+                <version>3.1.1</version>
                 <configuration>
-                    <useDefaultManifestFile>true</useDefaultManifestFile>
+                    <archive>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
                 </configuration>
             </plugin>
             <plugin>
@@ -51,12 +53,17 @@
     <repositories>
         <repository>
             <id>netbeans</id>
+            <name>NetBeans</name>
+            <url>https://repository.apache.org/content/repositories/orgapachenetbeans-1013/</url>
+        </repository>
+        <!--        <repository>
+            <id>netbeans</id>
             <name>Repository hosting NetBeans modules</name>
             <url>http://bits.netbeans.org/nexus/content/groups/netbeans</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </repository>
+        </repository>-->
         <repository>
             <id>central</id>
             <url>http://repo1.maven.org/maven2</url>
@@ -77,7 +84,7 @@
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-util</artifactId>
-            <version>RELEASE82</version>
+            <version>${netbeans.platform.version}</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -203,43 +210,43 @@
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-modules-extexecution</artifactId>
-            <version>RELEASE82</version>
+            <version>${netbeans.platform.version}</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-modules-options-api</artifactId>
-            <version>RELEASE82</version>
+            <version>${netbeans.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-api-progress</artifactId>
-            <version>RELEASE82</version>
+            <version>${netbeans.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-filesystems-nb</artifactId>
-            <version>RELEASE82</version>
+            <version>${netbeans.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-modules-extexecution-base</artifactId>
-            <version>RELEASE82</version>
+            <version>${netbeans.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-io</artifactId>
-            <version>RELEASE82</version>
+            <version>${netbeans.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-api-templates</artifactId>
-            <version>RELEASE82</version>
+            <version>${netbeans.platform.version}</version>
         </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <netbeans.platform.version>RELEASE82</netbeans.platform.version>
+        <netbeans.platform.version>RELEASE110</netbeans.platform.version>
     </properties>
     <name>.NET Core for NetBeans</name>
 </project>

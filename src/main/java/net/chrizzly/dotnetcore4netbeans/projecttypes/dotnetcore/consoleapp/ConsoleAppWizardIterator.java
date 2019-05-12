@@ -36,6 +36,7 @@ import org.openide.util.RequestProcessor;
     @TemplateRegistration(folder = "Project/.NET", displayName = "#ConsoleApp_displayName", description = "ConsoleAppDescription.html", iconBase = "net/chrizzly/dotnetcore4netbeans/projecttypes/dotnetcore/consoleapp/console-16.png"),})
 @Messages("ConsoleApp_displayName=Console App (.NET Core)")
 public class ConsoleAppWizardIterator implements WizardDescriptor.InstantiatingIterator {
+
     private int index;
     private WizardDescriptor.Panel[] panels;
     private WizardDescriptor wiz;
@@ -43,7 +44,6 @@ public class ConsoleAppWizardIterator implements WizardDescriptor.InstantiatingI
 
 //    public ConsoleAppWizardIterator() {
 //    }
-
     public static ConsoleAppWizardIterator createIterator() {
         return new ConsoleAppWizardIterator();
     }
@@ -187,7 +187,6 @@ public class ConsoleAppWizardIterator implements WizardDescriptor.InstantiatingI
 //            source.close();
 //        }
 //    }
-
 //    private static void createSln(FileObject projectRoot) throws IOException {
     // Create Sln folder and file.
 //        Sln sln = new Sln();
@@ -215,10 +214,9 @@ public class ConsoleAppWizardIterator implements WizardDescriptor.InstantiatingI
 //            Exceptions.printStackTrace(ex);
 //        }
 //    }
-
     private Runnable createDotNetCliApp() {
-        final File parentLocation = FileUtil.normalizeFile((File) wiz.getProperty("parentLocation"));
-        final File projectDir = FileUtil.normalizeFile((File) wiz.getProperty("projectDir"));
+        final File solutionDir = FileUtil.normalizeFile(new File(((String)wiz.getProperty("solutionDir") + File.separatorChar + (String)wiz.getProperty("solutionName"))));
+        final String solutionName = "" + wiz.getProperty("solutionName");
         final String projectName = "" + wiz.getProperty("projectName");
 
         return () -> {
@@ -227,7 +225,7 @@ public class ConsoleAppWizardIterator implements WizardDescriptor.InstantiatingI
             try {
                 ph.start();
 
-                File normalizedFilePath = FileUtil.normalizeFile(parentLocation);
+                File normalizedFilePath = FileUtil.normalizeFile(solutionDir);
 
                 ExecutionDescriptor descriptor = new ExecutionDescriptor()
                         .controllable(true)
@@ -254,15 +252,18 @@ public class ConsoleAppWizardIterator implements WizardDescriptor.InstantiatingI
                 ph.progress(String.format("Executing 'dotnet new %s'", projectName));
 
 //                ExecutionService exeService = ExecutionService.newService(new CliExecuter(parentLocation, projectName, "C#", "console"), descriptor, String.format("Executing 'dotnet new %s'", projectName));
-                ExecutionService exeService = ExecutionService.newService(CliExecuter.createProject(parentLocation, "new", "console", "C#", projectName), descriptor, String.format("Executing 'dotnet new %s'", projectName));
+//                ExecutionService createSln = ExecutionService.newService(CliExecuter.createSlnFile(parentLocation, "new", projectName), descriptor, String.format("Executing 'dotnet new %s'", projectName));
+                ExecutionService createProjectService = ExecutionService.newService(CliExecuter.createProjectWithSln(solutionDir, false, "new", "console", "C#", solutionName, projectName), descriptor, String.format("Executing 'dotnet new %s'", projectName));
                 Integer exitCode = null;
 
-                // this will run the process
-                Future<Integer> processFuture = exeService.run();
+//                Future<Integer> slnServiceFuture = createSln.run();
 
+                // this will run the process
+                Future<Integer> projectFuture = createProjectService.run();
                 try {
                     // wait for end of execution of shell command
-                    exitCode = processFuture.get();
+                    exitCode = projectFuture.get();
+//                    exitCode = slnServiceFuture.get();
                 } catch (InterruptedException | ExecutionException ex) {
                     NotificationDisplayer.getDefault().notify(".NET Core CLI execution was aborted", NotificationDisplayer.Priority.HIGH.getIcon(), String.format("The execution of 'dotnet new %s' was aborted. Please see the IDE Log.", projectName), null);
 
@@ -273,27 +274,32 @@ public class ConsoleAppWizardIterator implements WizardDescriptor.InstantiatingI
                     return;
                 }
 
-                if (exitCode != null && exitCode != 0) {
-                    NotificationDisplayer.getDefault().notify(".NET Core CLI execution was aborted", NotificationDisplayer.Priority.HIGH.getIcon(), String.format("The execution of 'dotnet new %s' was aborted. Please see the IDE Log.", projectName), null);
+                if (exitCode != null) {
+                    if (exitCode != 0) {
+                        NotificationDisplayer.getDefault().notify(".NET Core CLI execution was aborted", NotificationDisplayer.Priority.HIGH.getIcon(), String.format("The execution of 'dotnet new %s' was aborted. Please see the IDE Log.", projectName), null);
 
-                    return;
-                }
+                        return;
+                    }
 
-                if (exitCode != null && exitCode == 0) {
-                    NotificationDisplayer.getDefault().notify(String.format("Project %s was successfully created", projectName), NotificationDisplayer.Priority.HIGH.getIcon(), String.format("The execution of 'dotnet new %s' was canceled by the user.", projectName), null);
+                    if (exitCode == 0) {
+                        NotificationDisplayer.getDefault().notify(String.format("Project %s was successfully created", projectName), NotificationDisplayer.Priority.NORMAL.getIcon(), String.format("%s created successfully.", projectName), null);
 
-                    ph.progress("Opening project");
+                        ph.progress("Opening project");
 
-                    FileObject dir = FileUtil.toFileObject(projectDir);
-                    dir.refresh();
-                    // TODO show error and abort if generation failed (f.e. missing package.json whatever)
+                        FileObject dir = FileUtil.toFileObject(solutionDir);
+                        dir.refresh();
+                        // TODO show error and abort if generation failed (f.e. missing package.json whatever)
 
-                    Project p = FileOwnerQuery.getOwner(dir);
+                        Project p = FileOwnerQuery.getOwner(dir);
 
-                    if (null != p) {
-                        OpenProjects.getDefault().open(new Project[]{p}, true, true);
-                    } else {
+                        if (null != p) {
+                            OpenProjects.getDefault().open(new Project[]{p}, true, true);
+                            
+                            return;
+                        }
+
                         // TODO show error and abort if no project found (can happen when JS plugins are disabled)
+                        System.out.println("smth");
                     }
                 }
             } catch (Exception ex) {
