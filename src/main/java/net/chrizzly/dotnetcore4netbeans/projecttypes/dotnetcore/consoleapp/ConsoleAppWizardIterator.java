@@ -218,6 +218,7 @@ public class ConsoleAppWizardIterator implements WizardDescriptor.InstantiatingI
         final File solutionDir = FileUtil.normalizeFile(new File(((String)wiz.getProperty("solutionDir") + File.separatorChar + (String)wiz.getProperty("solutionName"))));
         final String solutionName = "" + wiz.getProperty("solutionName");
         final String projectName = "" + wiz.getProperty("projectName");
+        final Boolean inSameDir = (Boolean)wiz.getProperty("sameDir");
 
         return () -> {
             final ProgressHandle ph = ProgressHandle.createHandle("Creating project via .NET Core CLI...");
@@ -253,7 +254,7 @@ public class ConsoleAppWizardIterator implements WizardDescriptor.InstantiatingI
 
 //                ExecutionService exeService = ExecutionService.newService(new CliExecuter(parentLocation, projectName, "C#", "console"), descriptor, String.format("Executing 'dotnet new %s'", projectName));
 //                ExecutionService createSln = ExecutionService.newService(CliExecuter.createSlnFile(parentLocation, "new", projectName), descriptor, String.format("Executing 'dotnet new %s'", projectName));
-                ExecutionService createProjectService = ExecutionService.newService(CliExecuter.createProjectWithSln(solutionDir, false, "new", "console", "C#", solutionName, projectName), descriptor, String.format("Executing 'dotnet new %s'", projectName));
+                ExecutionService createProjectService = ExecutionService.newService(CliExecuter.createProjectWithSln(solutionDir, inSameDir, "new", "console", "C#", solutionName, projectName), descriptor, String.format("Executing 'dotnet new %s'", projectName));
                 Integer exitCode = null;
 
 //                Future<Integer> slnServiceFuture = createSln.run();

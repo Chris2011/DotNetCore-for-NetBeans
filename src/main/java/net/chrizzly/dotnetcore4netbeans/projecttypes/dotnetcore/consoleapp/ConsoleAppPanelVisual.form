@@ -24,36 +24,50 @@
                           <Component id="projectNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="solutionDirectoryLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="solutionNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="languageLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="frameworkLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="languageSelector" pref="86" max="32767" attributes="0"/>
-                                          <Component id="frameworkVersionLabel" max="32767" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="optionsLabel" min="-2" max="-2" attributes="0"/>
-                                  </Group>
                                   <Component id="solutionDirectoryField" alignment="1" pref="290" max="32767" attributes="0"/>
                                   <Component id="changeSolutionInstance" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="browseButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="browseButton" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                                      <Component id="optionsLabel" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
                           <Component id="projectNameField" max="32767" attributes="0"/>
                           <Component id="solutionNameField" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="outputLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="outputLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="languageLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="frameworkLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="languageSelector" max="32767" attributes="0"/>
+                                  <Component id="frameworkVersionLabel" min="-2" pref="86" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane1" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="sameDir" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -78,17 +92,19 @@
                   <Component id="solutionDirectoryField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="browseButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="changeSolutionInstance" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="optionsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="languageSelector" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="languageLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="changeSolutionInstance" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="optionsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="sameDir" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="languageSelector" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="languageLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="frameworkLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="frameworkVersionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -96,7 +112,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="outputLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="196" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="201" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -163,6 +179,7 @@
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
         </Property>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="languageLabel">
@@ -242,6 +259,13 @@
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="net/chrizzly/dotnetcore4netbeans/projecttypes/dotnetcore/consoleapp/Bundle.properties" key="ConsoleAppPanelVisual.outputLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="sameDir">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="net/chrizzly/dotnetcore4netbeans/projecttypes/dotnetcore/consoleapp/Bundle.properties" key="ConsoleAppPanelVisual.sameDir.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
