@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="Editors">
+        <folder name="text">
+            <folder name="x-cs">
+<!--                <file name="net-chrizzly-dotnetcore4netbeans-filetypes-cs-parser-CsParserFactory.instance"/>
+                <file name="net-chrizzly-dotnetcore4netbeans-filetypes-cs-parser-errorhighlighting.CsSyntaxErrorHightlightingTaskFactory.instance"/>-->
+                <attr name="displayName" bundlevalue="net.chrizzly.dotnetcore4netbeans.Bundle#Editors/text/x-cs"/>
+                <folder name="FontsColors">
+                    <folder name="NetBeans">
+                        <folder name="Defaults">
+                            <!--<file name="FontAndColors.xml" url="net/chrizzly/dotnetcore4netbeans/filetypes/cs/FontAndColors.xml">-->
+                            <file name="FontAndColors.xml" url="FontAndColors.xml">
+                                <attr name="SystemFileSystem.localizingBundle" stringvalue="net.chrizzly.dotnetcore4netbeans.Bundle"/>
+                            </file>
+                        </folder>
+                    </folder>
+                </folder>
+            </folder>
+        </folder>
+    </folder>
+
+    <folder name="OptionsDialog">
+        <folder name="PreviewExamples">
+            <folder name="text">
+                <file name="x-cs" url="net/chrizzly/dotnetcore4netbeans/filetypes/cs/previewexamples/CsPreview.cs"/>
+            </folder>
+        </folder>
+    </folder>
+</filesystem>
