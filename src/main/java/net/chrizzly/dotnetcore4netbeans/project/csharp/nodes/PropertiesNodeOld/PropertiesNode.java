@@ -1,9 +1,10 @@
-package org.chrisle.netbeans.plugins.csharp4netbeans.subproject.nodes.PropertiesNode;
+package net.chrizzly.dotnetcore4netbeans.project.csharp.nodes.PropertiesNodeOld;
 
 import java.awt.Image;
 import java.io.IOException;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
+import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.FilterNode;
 import org.openide.util.ImageUtilities;
@@ -14,7 +15,7 @@ import org.openide.util.ImageUtilities;
  */
 public class PropertiesNode extends FilterNode {
     @StaticResource
-    private static final String IMAGE = "org/chrisle/netbeans/plugins/csharp4netbeans/resources/properties.png";
+    private static final String IMAGE = "net/chrizzly/dotnetcore4netbeans/properties.png";
 
     public PropertiesNode(Project proj) throws DataObjectNotFoundException, IOException {
         super(DataObject.find(proj.getProjectDirectory().getFileObject("Properties")).getNodeDelegate());
