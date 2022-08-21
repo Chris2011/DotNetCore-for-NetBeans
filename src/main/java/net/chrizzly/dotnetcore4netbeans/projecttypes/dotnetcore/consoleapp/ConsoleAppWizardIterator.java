@@ -215,10 +215,10 @@ public class ConsoleAppWizardIterator implements WizardDescriptor.InstantiatingI
 //        }
 //    }
     private Runnable createDotNetCliApp() {
-        final File solutionDir = FileUtil.normalizeFile(new File(((String)wiz.getProperty("solutionDir") + File.separatorChar + (String)wiz.getProperty("solutionName"))));
+        final File solutionDir = FileUtil.normalizeFile(new File(((String) wiz.getProperty("solutionDir") + File.separatorChar + (String) wiz.getProperty("solutionName"))));
         final String solutionName = "" + wiz.getProperty("solutionName");
         final String projectName = "" + wiz.getProperty("projectName");
-        final Boolean inSameDir = (Boolean)wiz.getProperty("sameDir");
+        final Boolean inSameDir = (Boolean) wiz.getProperty("sameDir");
 
         return () -> {
             final ProgressHandle ph = ProgressHandle.createHandle("Creating project via .NET Core CLI...");
@@ -258,7 +258,6 @@ public class ConsoleAppWizardIterator implements WizardDescriptor.InstantiatingI
                 Integer exitCode = null;
 
 //                Future<Integer> slnServiceFuture = createSln.run();
-
                 // this will run the process
                 Future<Integer> projectFuture = createProjectService.run();
                 try {
@@ -295,7 +294,7 @@ public class ConsoleAppWizardIterator implements WizardDescriptor.InstantiatingI
 
                         if (null != p) {
                             OpenProjects.getDefault().open(new Project[]{p}, true, true);
-                            
+
                             return;
                         }
 
