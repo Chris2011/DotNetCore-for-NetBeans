@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-OpenIDE-Module-Layer: net/chrizzly/dotnetcore4netbeans/layer.xml
-OpenIDE-Module-Localizing-Bundle: net/chrizzly/dotnetcore4netbeans/Bundle.properties
+OpenIDE-Module-Layer: io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/layer.xml
+OpenIDE-Module-Localizing-Bundle: io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/Bundle.properties
 OpenIDE-Module-Needs: javax.script.ScriptEngine.freemarker
 
