@@ -64,7 +64,7 @@ public class CSharpSolution implements Project {
 
     private final class CSharpSolutionLogicalView implements LogicalViewProvider {
         @StaticResource()
-        public static final String SOLUTION_ICON = "io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/sln-file-nb.png";
+        public static final String SOLUTION_ICON = "io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/sln-file.svg";
 
         private final CSharpSolution _project;
 
@@ -92,7 +92,7 @@ public class CSharpSolution implements Project {
      */
     private final class Info implements ProjectInformation {
         @StaticResource()
-        public static final String SLN_ICON = "io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/sln-file-nb.png";
+        public static final String SLN_ICON = "io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/sln-file.svg";
 
         @Override
         public Icon getIcon() {

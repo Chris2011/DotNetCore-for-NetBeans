@@ -1,6 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
+    <!-- Loaders for project files -->
+    <folder name="Loaders">
+        <folder name="text">
+            <!-- C# Project -->
+            <folder name="x-csproj+xml">
+                <folder name="Factories">
+                    <file name="org-openide-loaders-DataObject.instance">
+                        <attr name="dataObjectClass" stringvalue="org.openide.loaders.DefaultDataObject"/>
+                        <attr name="instanceCreate" methodvalue="org.openide.loaders.DataLoaderPool.factory"/>
+                        <attr name="mimeType" stringvalue="text/x-csproj+xml"/>
+                    </file>
+                </folder>
+            </folder>
+            <!-- VB.NET Project -->
+            <folder name="x-vbproj+xml">
+                <folder name="Factories">
+                    <file name="org-openide-loaders-DataObject.instance">
+                        <attr name="dataObjectClass" stringvalue="org.openide.loaders.DefaultDataObject"/>
+                        <attr name="instanceCreate" methodvalue="org.openide.loaders.DataLoaderPool.factory"/>
+                        <attr name="mimeType" stringvalue="text/x-vbproj+xml"/>
+                    </file>
+                </folder>
+            </folder>
+            <!-- F# Project -->
+            <folder name="x-fsproj+xml">
+                <folder name="Factories">
+                    <file name="org-openide-loaders-DataObject.instance">
+                        <attr name="dataObjectClass" stringvalue="org.openide.loaders.DefaultDataObject"/>
+                        <attr name="instanceCreate" methodvalue="org.openide.loaders.DataLoaderPool.factory"/>
+                        <attr name="mimeType" stringvalue="text/x-fsproj+xml"/>
+                    </file>
+                </folder>
+            </folder>
+            <!-- Visual C++ Project -->
+            <folder name="x-vcxproj+xml">
+                <folder name="Factories">
+                    <file name="org-openide-loaders-DataObject.instance">
+                        <attr name="dataObjectClass" stringvalue="org.openide.loaders.DefaultDataObject"/>
+                        <attr name="instanceCreate" methodvalue="org.openide.loaders.DataLoaderPool.factory"/>
+                        <attr name="mimeType" stringvalue="text/x-vcxproj+xml"/>
+                    </file>
+                </folder>
+            </folder>
+        </folder>
+    </folder>
+
+    <!-- Icons for project files -->
+    <folder name="Services">
+        <folder name="MIMEResolver">
+            <file name="DotNetProjectFiles.xml" url="mime-resolver.xml"/>
+        </folder>
+    </folder>
+
     <folder name="Editors">
         <folder name="text">
             <folder name="x-cs">
@@ -18,6 +71,22 @@
                     </folder>
                 </folder>
             </folder>
+            <!-- C# Project file icon -->
+            <folder name="x-csproj+xml">
+                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/csproj.svg"/>
+            </folder>
+            <!-- VB.NET Project file icon -->
+            <folder name="x-vbproj+xml">
+                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/vbproj.svg"/>
+            </folder>
+            <!-- F# Project file icon -->
+            <folder name="x-fsproj+xml">
+                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/fsproj.svg"/>
+            </folder>
+            <!-- Visual C++ Project file icon -->
+            <folder name="x-vcxproj+xml">
+                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/vcxproj.svg"/>
+            </folder>
         </folder>
     </folder>
 
@@ -25,6 +94,38 @@
         <folder name="PreviewExamples">
             <folder name="text">
                 <file name="x-cs" url="io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/filetypes/cs/previewexamples/CsPreview.cs"/>
+            </folder>
+        </folder>
+    </folder>
+
+    <!-- Node factories for project types -->
+    <folder name="Projects">
+        <folder name="org-csharp-subproject">
+            <folder name="Nodes">
+                <file name="io-github-chris2011-netbeans-plugins-dotnetcore4netbeans-project-csharp-nodes-DependenciesNode-DependenciesNodeFactory.instance">
+                    <attr name="position" intvalue="100"/>
+                </file>
+            </folder>
+        </folder>
+        <folder name="org-vb-subproject">
+            <folder name="Nodes">
+                <file name="io-github-chris2011-netbeans-plugins-dotnetcore4netbeans-project-csharp-nodes-DependenciesNode-DependenciesNodeFactory.instance">
+                    <attr name="position" intvalue="100"/>
+                </file>
+            </folder>
+        </folder>
+        <folder name="org-fsharp-subproject">
+            <folder name="Nodes">
+                <file name="io-github-chris2011-netbeans-plugins-dotnetcore4netbeans-project-csharp-nodes-DependenciesNode-DependenciesNodeFactory.instance">
+                    <attr name="position" intvalue="100"/>
+                </file>
+            </folder>
+        </folder>
+        <folder name="org-vcpp-subproject">
+            <folder name="Nodes">
+                <file name="io-github-chris2011-netbeans-plugins-dotnetcore4netbeans-project-csharp-nodes-DependenciesNode-DependenciesNodeFactory.instance">
+                    <attr name="position" intvalue="100"/>
+                </file>
             </folder>
         </folder>
     </folder>

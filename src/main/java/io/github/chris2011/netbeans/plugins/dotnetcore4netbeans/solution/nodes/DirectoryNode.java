@@ -1,9 +1,14 @@
 package io.github.chris2011.netbeans.plugins.dotnetcore4netbeans.solution.nodes;
 
 import java.awt.Image;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.Action;
-import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.spi.project.ui.support.CommonProjectActions;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
@@ -20,8 +25,7 @@ import org.openide.util.lookup.Lookups;
  */
 public class DirectoryNode extends AbstractNode {
 
-    @StaticResource
-    public static final String FOLDER_ICON = "io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/folder.svg";
+    public static final String FOLDER_ICON = "org/netbeans/swing/plaf/resources/hidpi-folder-closed.png";
 
     private final FileObject directory;
 
@@ -69,6 +73,19 @@ public class DirectoryNode extends AbstractNode {
      */
     private static class DirectoryChildrenFactory extends ChildFactory<FileObject> {
 
+        private static final Comparator<FileObject> FILE_OBJECT_COMPARATOR = new Comparator<FileObject>() {
+            @Override
+            public int compare(FileObject o1, FileObject o2) {
+                return o1.getNameExt().compareToIgnoreCase(o2.getNameExt());
+            }
+        };
+        private static final Set<String> SKIPPED_DIRECTORIES = new HashSet<>(Arrays.asList(
+            "bin", "obj", "node_modules", "packages", "target", ".vs", ".git"
+        ));
+        private static final Set<String> SKIPPED_FILE_EXTENSIONS = new HashSet<>(Arrays.asList(
+            "user", "cache"
+        ));
+
         private final FileObject directory;
 
         public DirectoryChildrenFactory(FileObject directory) {
@@ -77,11 +94,27 @@ public class DirectoryNode extends AbstractNode {
 
         @Override
         protected boolean createKeys(List<FileObject> toPopulate) {
+            List<FileObject> folders = new ArrayList<>();
+            List<FileObject> files = new ArrayList<>();
+
             for (FileObject child : directory.getChildren()) {
-                if (shouldShowFile(child)) {
-                    toPopulate.add(child);
+                if (!shouldShowFile(child)) {
+                    continue;
+                }
+
+                if (child.isFolder()) {
+                    folders.add(child);
+                } else {
+                    files.add(child);
                 }
             }
+
+            Collections.sort(folders, FILE_OBJECT_COMPARATOR);
+            Collections.sort(files, FILE_OBJECT_COMPARATOR);
+
+            toPopulate.addAll(folders);
+            toPopulate.addAll(files);
+
             return true;
         }
 
@@ -89,34 +122,31 @@ public class DirectoryNode extends AbstractNode {
             if (file.isFolder()) {
                 // Show all folders except build/temp directories
                 String name = file.getName();
-                return !name.equals("bin") && !name.equals("obj") && !name.equals("target") &&
-                       !name.equals("node_modules") && !name.startsWith(".");
+
+                String normalized = name.toLowerCase();
+                if (SKIPPED_DIRECTORIES.contains(normalized)) {
+                    return false;
+                }
+                return !name.startsWith(".");
             }
 
-            // Show project files
             String ext = file.getExt();
-            if ("csproj".equals(ext) || "fsproj".equals(ext) || "vbproj".equals(ext)) {
-                return true;
+            if (ext != null && SKIPPED_FILE_EXTENSIONS.contains(ext.toLowerCase())) {
+                return false;
             }
 
             // Show common important files
-            String name = file.getName();
-            return "README.md".equals(name) || "readme.md".equals(name) ||
-                   "LICENSE".equals(name) || "license".equals(name) ||
-                   ".gitignore".equals(name) || "app.config".equals(name) ||
-                   "web.config".equals(name) || "appsettings.json".equals(name) ||
-                   name.endsWith(".sln") || name.endsWith(".cs") ||
-                   name.endsWith(".json") || name.endsWith(".xml");
+            return true;
         }
 
         @Override
         protected Node createNodeForKey(FileObject key) {
             if (key.isFolder()) {
                 return new DirectoryNode(key);
-            } else if ("csproj".equals(key.getExt()) || "fsproj".equals(key.getExt()) || "vbproj".equals(key.getExt())) {
+            } else if (isProjectFile(key)) {
                 // Create a project info for this project file
-                io.github.chris2011.netbeans.plugins.dotnetcore4netbeans.solution.SolutionParser.ProjectInfo projectInfo =
-                    new io.github.chris2011.netbeans.plugins.dotnetcore4netbeans.solution.SolutionParser.ProjectInfo(
+                io.github.chris2011.netbeans.plugins.dotnetcore4netbeans.solution.SolutionParser.ProjectInfo projectInfo
+                    = new io.github.chris2011.netbeans.plugins.dotnetcore4netbeans.solution.SolutionParser.ProjectInfo(
                         key.getName(),
                         key.getPath(),
                         ""
@@ -139,6 +169,11 @@ public class DirectoryNode extends AbstractNode {
                     };
                 }
             }
+        }
+
+        private boolean isProjectFile(FileObject file) {
+            String ext = file.getExt();
+            return ext != null && ext.toLowerCase().endsWith("proj");
         }
     }
 }

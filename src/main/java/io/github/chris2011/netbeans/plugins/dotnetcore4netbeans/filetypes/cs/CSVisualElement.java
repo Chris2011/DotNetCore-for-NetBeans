@@ -14,7 +14,7 @@ import org.openide.windows.TopComponent;
 
 @MultiViewElement.Registration(
         displayName = "#LBL_CS_VISUAL",
-        iconBase = "io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/cs-file-folder.png",
+        iconBase = "io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/cs.svg",
         mimeType = "text/x-cs",
         persistenceType = TopComponent.PERSISTENCE_NEVER,
         preferredID = "CSVisual",

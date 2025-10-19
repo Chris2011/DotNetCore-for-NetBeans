@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MIME-resolver PUBLIC "-//NetBeans//DTD MIME Resolver 1.0//EN" "http://www.netbeans.org/dtds/mime-resolver-1_0.dtd">
+<MIME-resolver>
+    <!-- C# Project File -->
+    <file>
+        <ext name="csproj"/>
+        <resolver mime="text/x-csproj+xml"/>
+    </file>
+
+    <!-- VB.NET Project File -->
+    <file>
+        <ext name="vbproj"/>
+        <resolver mime="text/x-vbproj+xml"/>
+    </file>
+
+    <!-- F# Project File -->
+    <file>
+        <ext name="fsproj"/>
+        <resolver mime="text/x-fsproj+xml"/>
+    </file>
+
+    <!-- Visual C++ Project File -->
+    <file>
+        <ext name="vcxproj"/>
+        <resolver mime="text/x-vcxproj+xml"/>
+    </file>
+</MIME-resolver>

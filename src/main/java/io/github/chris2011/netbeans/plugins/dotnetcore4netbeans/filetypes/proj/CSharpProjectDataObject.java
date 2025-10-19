@@ -1,4 +1,4 @@
-package io.github.chris2011.netbeans.plugins.dotnetcore4netbeans.filetypes.cs;
+package io.github.chris2011.netbeans.plugins.dotnetcore4netbeans.filetypes.proj;
 
 import java.io.IOException;
 import org.netbeans.core.spi.multiview.MultiViewElement;
@@ -17,76 +17,70 @@ import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
 
 @Messages({
-    "LBL_CS_LOADER=Files of CS"
+    "LBL_CSPROJ_LOADER=C# Project Files"
 })
 @MIMEResolver.ExtensionRegistration(
-        displayName = "#LBL_CS_LOADER",
-        mimeType = "text/x-cs",
-        extension = {"cs", "CS"}
+        displayName = "#LBL_CSPROJ_LOADER",
+        mimeType = "text/x-csproj+xml",
+        extension = {"csproj"}
 )
 @DataObject.Registration(
-        mimeType = "text/x-cs",
-        iconBase = "io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/cs.svg",
-        displayName = "#LBL_CS_LOADER",
+        mimeType = "text/x-csproj+xml",
+        iconBase = "io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/csproj.svg",
+        displayName = "#LBL_CSPROJ_LOADER",
         position = 300
 )
 @ActionReferences({
     @ActionReference(
-            path = "Loaders/text/x-cs/Actions",
+            path = "Loaders/text/x-csproj+xml/Actions",
             id = @ActionID(category = "System", id = "org.openide.actions.OpenAction"),
             position = 100,
             separatorAfter = 200
     ),
     @ActionReference(
-            path = "Loaders/text/x-cs/Actions",
+            path = "Loaders/text/x-csproj+xml/Actions",
             id = @ActionID(category = "Edit", id = "org.openide.actions.CutAction"),
             position = 300
     ),
     @ActionReference(
-            path = "Loaders/text/x-cs/Actions",
+            path = "Loaders/text/x-csproj+xml/Actions",
             id = @ActionID(category = "Edit", id = "org.openide.actions.CopyAction"),
             position = 400,
             separatorAfter = 500
     ),
     @ActionReference(
-            path = "Loaders/text/x-cs/Actions",
+            path = "Loaders/text/x-csproj+xml/Actions",
             id = @ActionID(category = "Edit", id = "org.openide.actions.DeleteAction"),
             position = 600
     ),
     @ActionReference(
-            path = "Loaders/text/x-cs/Actions",
+            path = "Loaders/text/x-csproj+xml/Actions",
             id = @ActionID(category = "System", id = "org.openide.actions.RenameAction"),
             position = 700,
             separatorAfter = 800
     ),
     @ActionReference(
-            path = "Loaders/text/x-cs/Actions",
-            id = @ActionID(category = "System", id = "org.openide.actions.SaveAsTemplateAction"),
-            position = 900,
-            separatorAfter = 1000
-    ),
-    @ActionReference(
-            path = "Loaders/text/x-cs/Actions",
+            path = "Loaders/text/x-csproj+xml/Actions",
             id = @ActionID(category = "System", id = "org.openide.actions.FileSystemAction"),
             position = 1100,
             separatorAfter = 1200
     ),
     @ActionReference(
-            path = "Loaders/text/x-cs/Actions",
+            path = "Loaders/text/x-csproj+xml/Actions",
             id = @ActionID(category = "System", id = "org.openide.actions.ToolsAction"),
             position = 1300
     ),
     @ActionReference(
-            path = "Loaders/text/x-cs/Actions",
+            path = "Loaders/text/x-csproj+xml/Actions",
             id = @ActionID(category = "System", id = "org.openide.actions.PropertiesAction"),
             position = 1400
     )
 })
-public class CSDataObject extends MultiDataObject {
+public class CSharpProjectDataObject extends MultiDataObject {
 
-    public CSDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
+    public CSharpProjectDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
         super(pf, loader);
-        registerEditor("text/x-cs", true);
+        registerEditor("text/x-csproj+xml", true);
     }
 
     @Override
@@ -95,14 +89,14 @@ public class CSDataObject extends MultiDataObject {
     }
 
     @MultiViewElement.Registration(
-            displayName = "#LBL_CS_EDITOR",
-            iconBase = "io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/cs.svg",
-            mimeType = "text/x-cs",
+            displayName = "#LBL_CSPROJ_EDITOR",
+            iconBase = "io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/csproj.svg",
+            mimeType = "text/x-csproj+xml",
             persistenceType = TopComponent.PERSISTENCE_ONLY_OPENED,
-            preferredID = "CS",
+            preferredID = "CSharpProject",
             position = 1000
     )
-    @Messages("LBL_CS_EDITOR=Source")
+    @Messages("LBL_CSPROJ_EDITOR=Source")
     public static MultiViewEditorElement createEditor(Lookup lkp) {
         return new MultiViewEditorElement(lkp);
     }

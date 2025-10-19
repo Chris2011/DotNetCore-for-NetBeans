@@ -1,6 +1,5 @@
 package io.github.chris2011.netbeans.plugins.dotnetcore4netbeans.project;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +112,9 @@ public class ProjectDependencyParser {
             // Parse FrameworkReference elements
             parseFrameworkReferences(root, dependencies);
 
+            // Try to resolve versions from Directory.Packages.props if needed
+            resolveVersionsFromCentralPackageManagement(projectFile, dependencies);
+
         } catch (Exception e) {
             LOG.log(Level.WARNING, "Failed to parse project file: " + projectFile.getPath(), e);
         }
@@ -143,6 +145,14 @@ public class ProjectDependencyParser {
             Element packageElement = (Element) packageNodes.item(i);
             String name = packageElement.getAttribute("Include");
             String version = packageElement.getAttribute("Version");
+
+            // If version is not an attribute, try to find it as a child element
+            if (version == null || version.trim().isEmpty()) {
+                NodeList versionNodes = packageElement.getElementsByTagName("Version");
+                if (versionNodes.getLength() > 0) {
+                    version = versionNodes.item(0).getTextContent().trim();
+                }
+            }
 
             if (name != null && !name.trim().isEmpty()) {
                 dependencies.getPackageReferences().add(new PackageReference(name.trim(), version));
@@ -191,5 +201,104 @@ public class ProjectDependencyParser {
         }
 
         return fileName;
+    }
+
+    /**
+     * Resolve package versions from Directory.Packages.props if they are not already set.
+     * This supports Central Package Management in .NET projects.
+     */
+    private static void resolveVersionsFromCentralPackageManagement(FileObject projectFile, ProjectDependencies dependencies) {
+        // Check if any package references are missing versions
+        boolean needsVersionResolution = false;
+        for (PackageReference packageRef : dependencies.getPackageReferences()) {
+            if (packageRef.getVersion() == null || packageRef.getVersion().trim().isEmpty()) {
+                needsVersionResolution = true;
+                break;
+            }
+        }
+
+        if (!needsVersionResolution) {
+            return; // All versions are already set
+        }
+
+        // Find Directory.Packages.props by walking up the directory tree
+        FileObject packagesPropsFile = findDirectoryPackagesProps(projectFile);
+        if (packagesPropsFile == null) {
+            return;
+        }
+
+        // Parse Directory.Packages.props and extract version mappings
+        java.util.Map<String, String> versionMap = parseDirectoryPackagesProps(packagesPropsFile);
+
+        // Update package references with versions from the map
+        for (PackageReference packageRef : dependencies.getPackageReferences()) {
+            if (packageRef.getVersion() == null || packageRef.getVersion().trim().isEmpty()) {
+                String version = versionMap.get(packageRef.getName());
+                if (version != null) {
+                    // Update the version using reflection or recreate the object
+                    // Since PackageReference fields are private, we need to create a new list
+                }
+            }
+        }
+
+        // Recreate the package references list with resolved versions
+        List<PackageReference> updatedReferences = new ArrayList<>();
+        for (PackageReference packageRef : dependencies.getPackageReferences()) {
+            String version = packageRef.getVersion();
+            if (version == null || version.trim().isEmpty()) {
+                version = versionMap.get(packageRef.getName());
+            }
+            updatedReferences.add(new PackageReference(packageRef.getName(), version));
+        }
+        dependencies.getPackageReferences().clear();
+        dependencies.getPackageReferences().addAll(updatedReferences);
+    }
+
+    /**
+     * Find Directory.Packages.props by walking up the directory tree from the project file.
+     */
+    private static FileObject findDirectoryPackagesProps(FileObject projectFile) {
+        FileObject currentDir = projectFile.getParent();
+
+        // Walk up the directory tree (max 10 levels to avoid infinite loops)
+        for (int i = 0; i < 10 && currentDir != null; i++) {
+            FileObject packagesProps = currentDir.getFileObject("Directory.Packages.props");
+            if (packagesProps != null && packagesProps.isValid()) {
+                return packagesProps;
+            }
+            currentDir = currentDir.getParent();
+        }
+
+        return null;
+    }
+
+    /**
+     * Parse Directory.Packages.props and extract package version mappings.
+     */
+    private static java.util.Map<String, String> parseDirectoryPackagesProps(FileObject packagesPropsFile) {
+        java.util.Map<String, String> versionMap = new java.util.HashMap<>();
+
+        try (InputStream inputStream = packagesPropsFile.getInputStream()) {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+
+            Element root = document.getDocumentElement();
+            NodeList packageVersionNodes = root.getElementsByTagName("PackageVersion");
+
+            for (int i = 0; i < packageVersionNodes.getLength(); i++) {
+                Element packageElement = (Element) packageVersionNodes.item(i);
+                String name = packageElement.getAttribute("Include");
+                String version = packageElement.getAttribute("Version");
+
+                if (name != null && !name.trim().isEmpty() && version != null && !version.trim().isEmpty()) {
+                    versionMap.put(name.trim(), version.trim());
+                }
+            }
+        } catch (Exception e) {
+            LOG.log(Level.FINE, "Failed to parse Directory.Packages.props: " + packagesPropsFile.getPath(), e);
+        }
+
+        return versionMap;
     }
 }

@@ -1,9 +1,8 @@
-package io.github.chris2011.netbeans.plugins.dotnetcore4netbeans.project.csharp.nodes.ReferencesNode;
+package io.github.chris2011.netbeans.plugins.dotnetcore4netbeans.project.csharp.nodes.DependenciesNode;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.event.ChangeListener;
-import io.github.chris2011.netbeans.plugins.dotnetcore4netbeans.project.csharp.CSharpSubProject;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ui.support.NodeFactory;
 import org.netbeans.spi.project.ui.support.NodeList;
@@ -11,32 +10,32 @@ import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 
 /**
+ * NodeFactory for Dependencies node - works with all .NET project types
+ * Registered via layer.xml for org-csharp-subproject, org-vb-subproject,
+ * org-fsharp-subproject, and org-vcpp-subproject
  *
  * @author chrl
  */
-@NodeFactory.Registration(projectType = "org-csharp-subproject")
-public class ReferencesNodeFactory implements NodeFactory {
+public class DependenciesNodeFactory implements NodeFactory {
 
     @Override
     public NodeList createNodes(Project project) {
-        CSharpSubProject p = project.getLookup().lookup(CSharpSubProject.class);
-        assert p != null;
-        return new ReferencesNodeList(p);
+        return new ReferencesNodeList(project);
     }
 
     private class ReferencesNodeList implements NodeList<Node> {
 
-        CSharpSubProject project;
+        Project project;
 
-        public ReferencesNodeList(CSharpSubProject project) {
+        public ReferencesNodeList(Project project) {
             this.project = project;
         }
 
         @Override
         public List<Node> keys() {
             List<Node> result = new ArrayList<>();
-            
-            result.add(new ReferencesNode(project));
+
+            result.add(new DependenciesNode(project));
             return result;
         }
 

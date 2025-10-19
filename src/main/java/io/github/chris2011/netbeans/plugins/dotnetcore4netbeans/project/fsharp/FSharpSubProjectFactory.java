@@ -1,4 +1,4 @@
-package io.github.chris2011.netbeans.plugins.dotnetcore4netbeans.project.csharp;
+package io.github.chris2011.netbeans.plugins.dotnetcore4netbeans.project.fsharp;
 
 import io.github.chris2011.netbeans.plugins.dotnetcore4netbeans.project.AbstractDotNetSubProjectFactory;
 import org.netbeans.api.project.Project;
@@ -8,20 +8,20 @@ import org.openide.filesystems.FileObject;
 import org.openide.util.lookup.ServiceProvider;
 
 /**
- * Factory for C# sub-projects
+ * Factory for F# sub-projects
  *
  * @author ChrisLE
  */
 @ServiceProvider(service = ProjectFactory.class)
-public class CSharpSubProjectFactory extends AbstractDotNetSubProjectFactory {
+public class FSharpSubProjectFactory extends AbstractDotNetSubProjectFactory {
 
     @Override
     protected String getProjectFileExtension() {
-        return "csproj";
+        return "fsproj";
     }
 
     @Override
     protected Project createProject(FileObject dir, ProjectState state, String projectFileName) {
-        return new CSharpSubProject(dir, state, projectFileName);
+        return new FSharpSubProject(dir, state, projectFileName);
     }
 }

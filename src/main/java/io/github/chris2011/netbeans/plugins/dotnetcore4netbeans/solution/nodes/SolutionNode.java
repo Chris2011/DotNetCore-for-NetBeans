@@ -19,7 +19,7 @@ import org.openide.util.lookup.Lookups;
 public class SolutionNode extends AbstractNode {
 
     @StaticResource
-    public static final String SOLUTION_ICON = "io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/sln-file-nb.png";
+    public static final String SOLUTION_ICON = "io/github/chris2011/netbeans/plugins/dotnetcore4netbeans/sln-file.svg";
 
     private final CSharpSolution solution;
     private final String solutionName;

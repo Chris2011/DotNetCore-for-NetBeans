@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" aria-label="C# badge">
+  <rect x="0.5" y="0.5" width="15" height="12" rx="1" fill="#2A272D" stroke="#c4c4c4" stroke-width="1"/>
+  <text x="7" y="8" fill="#3092ff" font-family="Consolas, Menlo, Monaco, 'DejaVu Sans Mono', monospace"
+        font-size="10" font-weight="700" text-anchor="middle" dominant-baseline="middle">VB</text>
+</svg>
